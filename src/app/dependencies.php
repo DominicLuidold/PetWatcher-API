@@ -2,7 +2,7 @@
 
 namespace PetWatcher;
 
-use \Slim\App;
+use Slim\App;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -24,5 +24,10 @@ return function (App $app) {
         $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
+    };
+
+    // Validator
+    $container['validator'] = function () {
+        return new \PetWatcher\Validation\Validator();
     };
 };
