@@ -1,0 +1,10 @@
+# IDE specific
+.idea/
+
+# Composer
+vendor/
+composer.phar
+
+# Irrelevant files & folders
+logs/
+.env
