@@ -2,6 +2,7 @@
 
 namespace PetWatcher;
 
+use Respect\Validation\Validator as v;
 use Slim\App;
 
 return function (App $app) {
@@ -30,4 +31,7 @@ return function (App $app) {
     $container['validator'] = function () {
         return new \PetWatcher\Validation\Validator();
     };
+
+    // Custom validation rules
+    v::with('PetWatcher\Validation\Rules');
 };
