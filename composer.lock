@@ -106,16 +106,16 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v5.8.28",
+            "version": "v5.8.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "c025a7a87d25101904175de2019e73828b0f30c9"
+                "reference": "7afee1ef2cb53190a98d727ea77096b6a610c05e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/c025a7a87d25101904175de2019e73828b0f30c9",
-                "reference": "c025a7a87d25101904175de2019e73828b0f30c9",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/7afee1ef2cb53190a98d727ea77096b6a610c05e",
+                "reference": "7afee1ef2cb53190a98d727ea77096b6a610c05e",
                 "shasum": ""
             },
             "require": {
@@ -147,11 +147,11 @@
             ],
             "description": "The Illuminate Container package.",
             "homepage": "https://laravel.com",
-            "time": "2019-07-09T13:26:41+00:00"
+            "time": "2019-07-16T13:14:16+00:00"
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.28",
+            "version": "v5.8.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -195,16 +195,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v5.8.28",
+            "version": "v5.8.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "ffedc9b15d42e90294fb51b3de795eb9610da1ab"
+                "reference": "bd3c54536c237de5eb53fcbdf35f904403353f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/ffedc9b15d42e90294fb51b3de795eb9610da1ab",
-                "reference": "ffedc9b15d42e90294fb51b3de795eb9610da1ab",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/bd3c54536c237de5eb53fcbdf35f904403353f4b",
+                "reference": "bd3c54536c237de5eb53fcbdf35f904403353f4b",
                 "shasum": ""
             },
             "require": {
@@ -251,11 +251,11 @@
                 "orm",
                 "sql"
             ],
-            "time": "2019-06-28T13:27:57+00:00"
+            "time": "2019-07-15T14:10:50+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v5.8.28",
+            "version": "v5.8.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -394,16 +394,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.20.0",
+            "version": "2.21.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bc671b896c276795fad8426b0aa24e8ade0f2498"
+                "reference": "58bdbbfab17ccd2ec7347b99e997f18232def4dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bc671b896c276795fad8426b0aa24e8ade0f2498",
-                "reference": "bc671b896c276795fad8426b0aa24e8ade0f2498",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/58bdbbfab17ccd2ec7347b99e997f18232def4dc",
+                "reference": "58bdbbfab17ccd2ec7347b99e997f18232def4dc",
                 "shasum": ""
             },
             "require": {
@@ -419,6 +419,9 @@
                 "phpunit/phpunit": "^7.5 || ^8.0",
                 "squizlabs/php_codesniffer": "^3.4"
             },
+            "bin": [
+                "bin/carbon"
+            ],
             "type": "library",
             "extra": {
                 "laravel": {
@@ -441,6 +444,10 @@
                     "name": "Brian Nesbitt",
                     "email": "brian@nesbot.com",
                     "homepage": "http://nesbot.com"
+                },
+                {
+                    "name": "kylekatarnls",
+                    "homepage": "http://github.com/kylekatarnls"
                 }
             ],
             "description": "A simple API extension for DateTime.",
@@ -450,7 +457,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-06-25T10:00:57+00:00"
+            "time": "2019-07-18T18:47:28+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -1653,16 +1660,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "7.0.6",
+            "version": "7.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315"
+                "reference": "7743bbcfff2a907e9ee4a25be13d0f8ec5e73800"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d471d0d2b529a67c6a722dd446c4ec90881ac315",
-                "reference": "d471d0d2b529a67c6a722dd446c4ec90881ac315",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/7743bbcfff2a907e9ee4a25be13d0f8ec5e73800",
+                "reference": "7743bbcfff2a907e9ee4a25be13d0f8ec5e73800",
                 "shasum": ""
             },
             "require": {
@@ -1671,7 +1678,7 @@
                 "php": "^7.2",
                 "phpunit/php-file-iterator": "^2.0.2",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^3.0.2",
+                "phpunit/php-token-stream": "^3.1.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
                 "sebastian/environment": "^4.2.2",
                 "sebastian/version": "^2.0.1",
@@ -1701,8 +1708,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -1712,7 +1719,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-07-08T05:29:42+00:00"
+            "time": "2019-07-25T05:31:54+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1856,16 +1863,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "3.0.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c"
+                "reference": "e899757bb3df5ff6e95089132f32cd59aac2220a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
-                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/e899757bb3df5ff6e95089132f32cd59aac2220a",
+                "reference": "e899757bb3df5ff6e95089132f32cd59aac2220a",
                 "shasum": ""
             },
             "require": {
@@ -1878,7 +1885,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -1901,20 +1908,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2019-07-08T05:24:54+00:00"
+            "time": "2019-07-25T05:29:42+00:00"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.4",
+            "version": "8.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "25fe0b5031b24722f66a75ad479a074cccc1bb37"
+                "reference": "c1b8534b3730f20f58600124129197bf1183dc92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/25fe0b5031b24722f66a75ad479a074cccc1bb37",
-                "reference": "25fe0b5031b24722f66a75ad479a074cccc1bb37",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1b8534b3730f20f58600124129197bf1183dc92",
+                "reference": "c1b8534b3730f20f58600124129197bf1183dc92",
                 "shasum": ""
             },
             "require": {
@@ -1973,8 +1980,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -1984,7 +1991,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-07-03T08:30:33+00:00"
+            "time": "2019-07-15T06:26:24+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
