@@ -7,7 +7,7 @@ $dotenv->load();
 
 return [
     'settings' => [
-        'displayErrorDetails' => true, // development-only
+        'displayErrorDetails' => getenv('DEBUG'),
 
         // Monolog settings
         'logger' => [
@@ -25,7 +25,7 @@ return [
             'password' => getenv('DB_PASSWORD'),
             'charset' => getenv('DB_CHARSET'),
             'collation' => getenv('DB_COLLATION'),
-            'prefix' => getenv('DB_PREFIX')
-        ]
+            'prefix' => getenv('DB_PREFIX'),
+        ],
     ]
 ];
