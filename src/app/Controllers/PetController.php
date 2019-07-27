@@ -19,11 +19,13 @@ class PetController extends BaseController {
      * @return \Slim\Http\Response
      */
     public function info(Request $request, Response $response, array $args) {
+        // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
             return $response->withJson(["message" => "Pet not found"], 404);
         }
 
+        // Response
         return $response->withJson($pet, 200);
     }
 
@@ -34,16 +36,16 @@ class PetController extends BaseController {
      * @param \Slim\Http\Response $response
      * @return \Slim\Http\Response
      */
-    public function all(Request $request, Response $response) {
-        $query = Pet::all();
+    public function infoAll(Request $request, Response $response) {
+        // Database query
+        $pets = Pet::all();
 
         // Insert resource-specific URI to ease further navigation
-        $pets = [];
-        foreach ($query as $pet) {
-            $pet['URI'] = $request->getUri()->getPath() . '/' . $pet['id'];
-            $pets[] = $pet;
+        foreach ($pets as $pet) {
+            $pet->URI = $request->getUri()->getPath() . "/" . $pet->id;
         }
 
+        // Response
         return $response->withJson($pets, 200);
     }
 
@@ -59,26 +61,74 @@ class PetController extends BaseController {
         $validation = $this->validator->validate($request, [
             'name' => v::alpha()->length(1, 255),
             'dateOfBirth' => v::unixTimestamp(),
+            'weight' => v::numeric(),
             'location' => v::location(),
-            'home_id' => v::numeric(),
         ]);
         if ($validation->failed()) {
             return $response->withJSON(["message" => $validation->getErrors()], 400);
         }
-        $home = Home::find($request->getParam('home_id'));
+
+        // Database query
+        $home = Home::find($request->getParsedBody()['home_id']);
         if (!$home) {
             return $response->withJson(["message" => "Home not found"], 404);
         }
 
         // Database insert
         $pet = Pet::create([
-            'name' => $request->getParam('name'),
-            'dateOfBirth' => $request->getParam('dateOfBirth'),
-            'location' => $request->getParam('location'),
+            'name' => $request->getParsedBody()['name'],
+            'dateOfBirth' => $request->getParsedBody()['dateOfBirth'],
+            'weight' => $request->getParsedBody()['weight'],
+            'location' => $request->getParsedBody()['location'],
         ]);
         $home->pets()->save($pet);
 
-        $this->logger->addInfo("Created pet '" . $request->getQueryParams()['name'] . "'");
-        return $response->withJSON(["id" => $pet->id], 201);
+        // Response
+        $this->logger->addInfo("Created pet #" . $pet->id . " - '" . $pet->name . "'");
+        return $response->withJSON(["message" => "Successfully created pet", "id" => $pet->id], 201);
+    }
+
+    /**
+     * Delete pet based on id
+     *
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function delete(Request $request, Response $response, array $args) {
+        // Database query
+        $pet = Pet::find($args['id']);
+        if (!$pet) {
+            return $response->withJson(["message" => "Pet not found"], 404);
+        }
+
+        // Database delete
+        $pet->delete();
+
+        // Response
+        $this->logger->addInfo("Deleted pet #" . $pet->id . " - '" . $pet->name . "'");
+        return $response->withJson(["message" => "Successfully deleted pet"], 204);
+    }
+
+    /**
+     * Delete all pets
+     *
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @return \Slim\Http\Response
+     */
+    public function deleteAll(Request $request, Response $response) {
+        // Database query
+        $pets = Pet::all();
+
+        // Database delete
+        foreach ($pets as $pet) {
+            $pet->delete();
+        }
+
+        // Response
+        $this->logger->addInfo("Deleted all pets");
+        return $response->withJson(["message" => "Successfully deleted all pets"], 204);
     }
 }
