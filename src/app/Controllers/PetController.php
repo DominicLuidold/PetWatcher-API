@@ -173,8 +173,8 @@ class PetController extends BaseController {
     /**
      * Validate input based on supplied request
      *
-     * @param Request $request
-     * @return Validator
+     * @param \Slim\Http\Request $request
+     * @return \PetWatcher\Validation\Validator
      */
     private function validateInput(Request $request): Validator {
         return $this->validator->validate($request, [

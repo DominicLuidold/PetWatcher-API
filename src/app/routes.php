@@ -20,7 +20,7 @@ return function (App $app) {
             $app->delete('/pets/{id}', PetController::class . ':delete');
 
             // Homes
-            $app->get('/homes', Homecontroller::class . ':infoAll');
+            $app->get('/homes', HomeController::class . ':infoAll');
             $app->post('/homes', HomeController::class . ':create');
             $app->delete('/homes', HomeController::class . ':deleteAll');
             $app->get('/homes/{id}', HomeController::class . ':info');
