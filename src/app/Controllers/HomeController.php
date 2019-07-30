@@ -3,6 +3,7 @@
 namespace PetWatcher\Controllers;
 
 use PetWatcher\Models\Home;
+use PetWatcher\Validation\Validator;
 use Respect\Validation\Validator as v;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -83,9 +84,7 @@ class HomeController extends BaseController {
      */
     public function create(Request $request, Response $response) {
         // Input validation
-        $validation = $this->validator->validate($request, [
-            'name' => v::alnum()->length(1, 255),
-        ]);
+        $validation = $this->validateInput($request);
         if ($validation->failed()) {
             return $response->withJSON(["message" => $validation->getErrors()], 400);
         }
@@ -98,6 +97,38 @@ class HomeController extends BaseController {
         // Response
         $this->logger->addInfo("Created home #" . $home->id . " - '" . $home->name . "'");
         return $response->withJSON(["message" => "Successfully created home", "id" => $home->id], 201);
+    }
+
+    /**
+     * Update home based on id and input, create new home if id does not exist
+     *
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param array $args
+     * @return \Slim\Http\Response
+     */
+    public function update(Request $request, Response $response, array $args) {
+        // Database query
+        $home = Home::find($args['id']);
+        if (!$home) {
+            // Create home if specified id does not exist yet
+            return $this->create($request, $response);
+        }
+
+        // Input validation
+        $validation = $this->validateInput($request);
+        if ($validation->failed()) {
+            return $response->withJSON(["message" => $validation->getErrors()], 400);
+        }
+
+        // Database update
+        $home->update([
+            'name' => $request->getParsedBody()['name'],
+        ]);
+
+        // Response
+        $this->logger->addInfo("Updated home #" . $home->id . " - '" . $home->name . "'");
+        return $response->withJson(["message" => "Successfully updated home"], 200);
     }
 
     /**
@@ -158,5 +189,17 @@ class HomeController extends BaseController {
         }
         $this->logger->addInfo("Deleted all homes");
         return $response->withJson(["message" => "Successfully deleted all homes"], 200);
+    }
+
+    /**
+     * Validate input based on supplied request
+     *
+     * @param Request $request
+     * @return Validator
+     */
+    private function validateInput(Request $request): Validator {
+        return $this->validator->validate($request, [
+            'name' => v::alnum()->length(1, 255),
+        ]);
     }
 }
