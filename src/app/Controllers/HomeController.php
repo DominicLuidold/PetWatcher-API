@@ -125,7 +125,7 @@ class HomeController extends BaseController {
 
         // Response
         $this->logger->addInfo("Deleted home #" . $home->id . " - '" . $home->name . "'");
-        return $response->withJson(["message" => "Successfully deleted home"], 204);
+        return $response->withJson(["message" => "Successfully deleted home"], 200);
     }
 
     /**
@@ -143,19 +143,20 @@ class HomeController extends BaseController {
         $omittedHomes = [];
         foreach ($homes as $home) {
             // Skip deletion if pets still assigned to this home
-            if ($home->pets()->get()) {
-                $omittedHomes[] = $home->id;
-            } else {
+            if ($home->pets()->get()->isEmpty()) {
                 $home->delete();
+            } else {
+                $omittedHomes[] = $home->id;
             }
         }
 
         // Response
         if ($omittedHomes) {
+            $this->logger->addInfo("Attempted to delete all homes - some remain untouched");
             return $response->withJson(["message" => "Cannot delete following homes - pets still assigned",
                 "homes" => $omittedHomes], 409);
         }
-        $this->logger->addInfo("Deleted all homes'");
-        return $response->withJson(["message" => "Successfully deleted all homes"], 204);
+        $this->logger->addInfo("Deleted all homes");
+        return $response->withJson(["message" => "Successfully deleted all homes"], 200);
     }
 }

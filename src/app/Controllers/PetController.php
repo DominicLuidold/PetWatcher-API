@@ -108,7 +108,7 @@ class PetController extends BaseController {
 
         // Response
         $this->logger->addInfo("Deleted pet #" . $pet->id . " - '" . $pet->name . "'");
-        return $response->withJson(["message" => "Successfully deleted pet"], 204);
+        return $response->withJson(["message" => "Successfully deleted pet"], 200);
     }
 
     /**
@@ -129,6 +129,6 @@ class PetController extends BaseController {
 
         // Response
         $this->logger->addInfo("Deleted all pets");
-        return $response->withJson(["message" => "Successfully deleted all pets"], 204);
+        return $response->withJson(["message" => "Successfully deleted all pets"], 200);
     }
 }
