@@ -7,4 +7,5 @@ composer.phar
 
 # Irrelevant files & folders
 logs/
+uploads/
 .env

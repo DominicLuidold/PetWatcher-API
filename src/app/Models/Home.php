@@ -8,6 +8,7 @@ class Home extends Model {
     protected $dateFormat = 'U';
     protected $fillable = [
         'name',
+        'image',
     ];
 
     public function pets() {

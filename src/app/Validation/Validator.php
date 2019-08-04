@@ -3,7 +3,6 @@
 namespace PetWatcher\Validation;
 
 use Respect\Validation\Exceptions\NestedValidationException;
-use Slim\Http\Request;
 
 class Validator {
     /**
@@ -12,16 +11,21 @@ class Validator {
     private $errors = [];
 
     /**
-     * Write each error message into associative array
+     * Validate input and write occurring error messages into associative array
      *
-     * @param \Slim\Http\Request $request
-     * @param array $rules
+     * @param mixed $input Input data
+     * @param array $rules Set of validation rules
+     * @param bool $file Whether $input is a file
      * @return $this
      */
-    public function validate(Request $request, array $rules) {
+    public function validate($input, array $rules, bool $file = false) {
         foreach ($rules as $key => $rule) {
             try {
-                $rule->setName($key)->assert($request->getParam($key));
+                if ($file) {
+                    $rule->setName($key)->assert($input->file);
+                } else {
+                    $rule->setName($key)->assert($input->getParam($key));
+                }
             } catch (NestedValidationException $e) {
                 $this->errors[$key] = $e->getMessages();
             }

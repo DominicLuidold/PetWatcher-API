@@ -4,6 +4,8 @@ namespace PetWatcher;
 
 use PetWatcher\Controllers\HomeController;
 use PetWatcher\Controllers\PetController;
+use PetWatcher\Controllers\PetImageController;
+use PetWatcher\Controllers\HomeImageController;
 use Slim\App;
 
 return function (App $app) {
@@ -19,6 +21,13 @@ return function (App $app) {
             $app->put('/pets/{id}', PetController::class . ':update');
             $app->delete('/pets/{id}', PetController::class . ':delete');
 
+            // Pet Images
+            $app->group('/pets/{id}', function (App $app) {
+                $app->get('/image', PetImageController::class . ':get');
+                $app->post('/image', PetImageController::class . ':add');
+                $app->delete('/image', PetImageController::class . ':delete');
+            });
+
             // Homes
             $app->get('/homes', HomeController::class . ':infoAll');
             $app->post('/homes', HomeController::class . ':create');
@@ -27,6 +36,13 @@ return function (App $app) {
             $app->put('/homes/{id}', HomeController::class . ':update');
             $app->delete('/homes/{id}', HomeController::class . ':delete');
             $app->get('/homes/{id}/pets', HomeController::class . ':pets');
+
+            // Home Images
+            $app->group('/homes/{id}', function (App $app) {
+                $app->get('/image', HomeImageController::class . ':get');
+                $app->post('/image', HomeImageController::class . ':add');
+                $app->delete('/image', HomeImageController::class . ':delete');
+            });
         });
     });
 };

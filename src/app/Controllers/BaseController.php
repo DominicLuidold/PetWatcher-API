@@ -4,7 +4,7 @@ namespace PetWatcher\Controllers;
 
 use Slim\Container;
 
-class BaseController {
+abstract class BaseController {
     /**
      * @var \Slim\Container $container Instance of dependency container
      */

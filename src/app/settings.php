@@ -9,6 +9,12 @@ return [
     'settings' => [
         'displayErrorDetails' => getenv('DEBUG'),
 
+        // Image upload
+        'upload' => [
+            'directory' => getenv('UPLOAD_DIR'),
+            'maxSize' => getenv('MAX_SIZE'),
+        ],
+
         // Monolog settings
         'logger' => [
             'name' => 'PetWatcher-API',
