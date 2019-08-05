@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher\Validation;
 
@@ -22,7 +23,7 @@ class Validator {
         foreach ($rules as $key => $rule) {
             try {
                 if ($file) {
-                    $rule->setName($key)->assert($input->file);
+                    $rule->setName($key)->assert($input);
                 } else {
                     $rule->setName($key)->assert($input->getParam($key));
                 }

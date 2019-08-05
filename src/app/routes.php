@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher;
 
@@ -7,41 +8,41 @@ use PetWatcher\Controllers\PetController;
 use PetWatcher\Controllers\PetImageController;
 use PetWatcher\Controllers\HomeImageController;
 use Slim\App;
+use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
-
-    $app->group('/api', function (App $app) {
+    $app->group('/api', function (Group $group) {
         // API v1
-        $app->group('/v1', function (App $app) {
+        $group->group('/v1', function (Group $group) {
             // Pets
-            $app->get('/pets', PetController::class . ':infoAll');
-            $app->post('/pets', PetController::class . ':create');
-            $app->delete('/pets', PetController::class . ':deleteAll');
-            $app->get('/pets/{id}', PetController::class . ':info');
-            $app->put('/pets/{id}', PetController::class . ':update');
-            $app->delete('/pets/{id}', PetController::class . ':delete');
+            $group->get('/pets', PetController::class . ':infoAll');
+            $group->post('/pets', PetController::class . ':create');
+            $group->delete('/pets', PetController::class . ':deleteAll');
+            $group->get('/pets/{id}', PetController::class . ':info');
+            $group->put('/pets/{id}', PetController::class . ':update');
+            $group->delete('/pets/{id}', PetController::class . ':delete');
 
             // Pet Images
-            $app->group('/pets/{id}', function (App $app) {
-                $app->get('/image', PetImageController::class . ':get');
-                $app->post('/image', PetImageController::class . ':add');
-                $app->delete('/image', PetImageController::class . ':delete');
+            $group->group('/pets/{id}', function (Group $group) {
+                $group->get('/image', PetImageController::class . ':get');
+                $group->post('/image', PetImageController::class . ':add');
+                $group->delete('/image', PetImageController::class . ':delete');
             });
 
             // Homes
-            $app->get('/homes', HomeController::class . ':infoAll');
-            $app->post('/homes', HomeController::class . ':create');
-            $app->delete('/homes', HomeController::class . ':deleteAll');
-            $app->get('/homes/{id}', HomeController::class . ':info');
-            $app->put('/homes/{id}', HomeController::class . ':update');
-            $app->delete('/homes/{id}', HomeController::class . ':delete');
-            $app->get('/homes/{id}/pets', HomeController::class . ':pets');
+            $group->get('/homes', HomeController::class . ':infoAll');
+            $group->post('/homes', HomeController::class . ':create');
+            $group->delete('/homes', HomeController::class . ':deleteAll');
+            $group->get('/homes/{id}', HomeController::class . ':info');
+            $group->put('/homes/{id}', HomeController::class . ':update');
+            $group->delete('/homes/{id}', HomeController::class . ':delete');
+            $group->get('/homes/{id}/pets', HomeController::class . ':pets');
 
             // Home Images
-            $app->group('/homes/{id}', function (App $app) {
-                $app->get('/image', HomeImageController::class . ':get');
-                $app->post('/image', HomeImageController::class . ':add');
-                $app->delete('/image', HomeImageController::class . ':delete');
+            $group->group('/homes/{id}', function (Group $group) {
+                $group->get('/image', HomeImageController::class . ':get');
+                $group->post('/image', HomeImageController::class . ':add');
+                $group->delete('/image', HomeImageController::class . ':delete');
             });
         });
     });

@@ -1,25 +1,43 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher\Controllers;
 
-use Slim\Container;
-use Slim\Http\UploadedFile;
+use DI\Container;
+use DI\DependencyException;
+use DI\NotFoundException;
+use Exception;
+use PetWatcher\Validation\Validator;
+use Respect\Validation\Validator as v;
+use Slim\Psr7\UploadedFile;
 
 abstract class BaseImageController extends BaseController {
-    /**
-     * @var String $imgUpload Image upload settings
-     */
+    /** @var string $imgUpload Image upload settings */
     protected $imgUpload;
 
     /**
-     * Create a new base image controller
+     * BaseImageController constructor
      *
      * @param Container $container
-     * @throws \Interop\Container\Exception\ContainerException
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function __construct(Container $container) {
         parent::__construct($container);
         $this->imgUpload = $container->get('settings')['upload'];
+    }
+
+    /**
+     * Validate the uploaded file
+     *
+     * @param string $image
+     * @return Validator
+     */
+    protected function validateUploadedFile(string $image): Validator {
+        return $this->validator->validate($image, [
+            'file' => v::image(),
+            'size' => v::size(null, $this->imgUpload['maxSize']),
+        ], true);
     }
 
     /**
@@ -29,7 +47,7 @@ abstract class BaseImageController extends BaseController {
      * @param string $directory Directory to which the file is moved
      * @param UploadedFile $uploadedFile Uploaded file to move
      * @return string Filename of moved file
-     * @throws \Exception on any error during the move operation
+     * @throws Exception on any error during the move operation
      */
     protected function moveUploadedFile(string $directory, UploadedFile $uploadedFile): string {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);

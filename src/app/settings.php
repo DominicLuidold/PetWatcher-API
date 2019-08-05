@@ -1,12 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher;
 
-$dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../../');
+use DI\Container;
+use Dotenv\Dotenv;
+use Monolog\Logger;
+use Slim\App;
+
+$dotenv = Dotenv::create(__DIR__ . '/../../');
 $dotenv->load();
 
-return [
-    'settings' => [
+return function (App $app) {
+    /** @var Container $container */
+    $container = $app->getContainer();
+
+    // Global settings object
+    $container->set('settings', [
+        // Miscellaneous
         'displayErrorDetails' => getenv('DEBUG'),
 
         // Image upload
@@ -19,7 +30,7 @@ return [
         'logger' => [
             'name' => 'PetWatcher-API',
             'path' => getenv('LOG_DIR') . 'petwatcher.log',
-            'level' => \Monolog\Logger::DEBUG,
+            'level' => Logger::DEBUG,
         ],
 
         // Database settings
@@ -33,5 +44,5 @@ return [
             'collation' => getenv('DB_COLLATION'),
             'prefix' => getenv('DB_PREFIX'),
         ],
-    ]
-];
+    ]);
+};

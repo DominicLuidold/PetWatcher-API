@@ -1,42 +1,43 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher\Controllers;
 
 use PetWatcher\Models\Home;
 use PetWatcher\Validation\Validator;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator as v;
-use Slim\Http\Request;
-use Slim\Http\Response;
 
 class HomeController extends BaseController {
 
     /**
      * Get information about specific home
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function info(Request $request, Response $response, array $args) {
+    public function info(Request $request, Response $response, array $args): Response {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
-            return $response->withJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Home not found"], 404);
         }
 
         // Response
-        return $response->withJson($home, 200);
+        return $this->respondWithJson($response, $home);
     }
 
     /**
      * Get information about all homes
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @return \Slim\Http\Response
+     * @param Request $request
+     * @param Response $response
+     * @return Response
      */
-    public function infoAll(Request $request, Response $response) {
+    public function infoAll(Request $request, Response $response): Response {
         // Database query
         $homes = Home::all();
 
@@ -46,22 +47,22 @@ class HomeController extends BaseController {
         }
 
         // Response
-        return $response->withJson($homes, 200);
+        return $this->respondWithJson($response, $homes);
     }
 
     /**
      * Get information about all pets living in this home
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function pets(Request $request, Response $response, array $args) {
+    public function pets(Request $request, Response $response, array $args): Response {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
-            return $response->withJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Home not found"], 404);
         }
         $pets = $home->pets()->get();
 
@@ -72,21 +73,21 @@ class HomeController extends BaseController {
         }
 
         // Response
-        return $response->withJson($pets, 200);
+        return $this->respondWithJson($response, $pets);
     }
 
     /**
      * Create new home based on input
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @return \Slim\Http\Response
+     * @param Request $request
+     * @param Response $response
+     * @return Response
      */
-    public function create(Request $request, Response $response) {
+    public function create(Request $request, Response $response): Response {
         // Input validation
         $validation = $this->validateInput($request);
         if ($validation->failed()) {
-            return $response->withJSON(["message" => $validation->getErrors()], 400);
+            return $this->respondWithJson($response, ["message" => $validation->getErrors()], 400);
         }
 
         // Database insert
@@ -95,19 +96,19 @@ class HomeController extends BaseController {
         ]);
 
         // Response
-        $this->logger->addInfo("Created home #" . $home->id . " - '" . $home->name . "'");
-        return $response->withJSON(["message" => "Successfully created home", "id" => $home->id], 201);
+        $this->logger->info("Created home #" . $home->id . " - '" . $home->name . "'");
+        return $this->respondWithJson($response, ["message" => "Successfully created home", "id" => $home->id], 201);
     }
 
     /**
      * Update home based on id and input, create new home if id does not exist
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function update(Request $request, Response $response, array $args) {
+    public function update(Request $request, Response $response, array $args): Response {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -118,7 +119,7 @@ class HomeController extends BaseController {
         // Input validation
         $validation = $this->validateInput($request);
         if ($validation->failed()) {
-            return $response->withJSON(["message" => $validation->getErrors()], 400);
+            return $this->respondWithJson($response, ["message" => $validation->getErrors()], 400);
         }
 
         // Database update
@@ -127,46 +128,47 @@ class HomeController extends BaseController {
         ]);
 
         // Response
-        $this->logger->addInfo("Updated home #" . $home->id . " - '" . $home->name . "'");
-        return $response->withJson(["message" => "Successfully updated home"], 200);
+        $this->logger->info("Updated home #" . $home->id . " - '" . $home->name . "'");
+        return $this->respondWithJson($response, ["message" => "Successfully updated home"]);
     }
 
     /**
      * Delete home based on id
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function delete(Request $request, Response $response, array $args) {
+    public function delete(Request $request, Response $response, array $args): Response {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
-            return $response->withJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Home not found"], 404);
         }
 
         // Abort deletion if pets still assigned to this home
         if ($home->pets()->get()) {
-            return $response->withJson(["message" => "Cannot delete home - pets still assigned to this home"], 409);
+            return $this->respondWithJson($response,
+                ["message" => "Cannot delete home - pets still assigned to this home"], 409);
         }
 
         // Database delete
         $home->delete();
 
         // Response
-        $this->logger->addInfo("Deleted home #" . $home->id . " - '" . $home->name . "'");
-        return $response->withJson(["message" => "Successfully deleted home"], 200);
+        $this->logger->info("Deleted home #" . $home->id . " - '" . $home->name . "'");
+        return $this->respondWithJson($response, ["message" => "Successfully deleted home"]);
     }
 
     /**
      * Delete all homes
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @return \Slim\Http\Response
+     * @param Request $request
+     * @param Response $response
+     * @return Response
      */
-    public function deleteAll(Request $request, Response $response) {
+    public function deleteAll(Request $request, Response $response): Response {
         // Database query
         $homes = Home::all();
 
@@ -183,19 +185,19 @@ class HomeController extends BaseController {
 
         // Response
         if ($omittedHomes) {
-            $this->logger->addInfo("Attempted to delete all homes - some remain untouched");
-            return $response->withJson(["message" => "Cannot delete following homes - pets still assigned",
+            $this->logger->info("Attempted to delete all homes - some remain untouched");
+            return $this->respondWithJson($response, ["message" => "Cannot delete following homes - pets still assigned",
                 "homes" => $omittedHomes], 409);
         }
-        $this->logger->addInfo("Deleted all homes");
-        return $response->withJson(["message" => "Successfully deleted all homes"], 200);
+        $this->logger->info("Deleted all homes");
+        return $this->respondWithJson($response, ["message" => "Successfully deleted all homes"]);
     }
 
     /**
      * Validate input based on supplied request
      *
-     * @param \Slim\Http\Request $request
-     * @return \PetWatcher\Validation\Validator
+     * @param Request $request
+     * @return Validator
      */
     private function validateInput(Request $request): Validator {
         return $this->validator->validate($request, [

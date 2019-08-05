@@ -1,88 +1,85 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher\Controllers;
 
 use PetWatcher\Models\Pet;
-use Respect\Validation\Validator as v;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class PetImageController extends BaseImageController {
 
     /**
      * Get image of pet based on id
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function get(Request $request, Response $response, array $args) {
+    public function get(Request $request, Response $response, array $args): Response {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
-            return $response->withJson(["message" => "Pet not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Pet not found"], 404);
         }
         if ($pet->image == "") {
-            return $response->withJson(["message" => "Image not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Image not found"], 404);
         }
 
         // Read file
         $imagePath = $this->imgUpload['directory'] . $pet->image;
         if (!file_exists($imagePath) || !($image = file_get_contents($imagePath))) {
-            $this->logger->addError("Attempt to read image of pet #" . $pet->id . " failed");
-            return $response->withJson(["message" => "Internal error"], 500);
+            $this->logger->error("Attempt to read image of pet #" . $pet->id . " failed");
+            return $this->respondWithJson($response, ["message" => "Internal error"], 500);
         }
 
         // Response
-        $response->write($image);
+        $response->getBody()->write($image);
         return $response->withHeader('Content-Type', 'image/' . pathinfo($imagePath, PATHINFO_EXTENSION));
     }
 
     /**
      * Add new image of pet. An already existing image will get removed
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function add(Request $request, Response $response, array $args) {
+    public function add(Request $request, Response $response, array $args): Response {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
-            return $response->withJson(["message" => "Pet not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Pet not found"], 404);
         }
 
         // Input validation
-        $uploadedFile = $request->getUploadedFiles()['image'];
-        $validation = $this->validator->validate($uploadedFile, [
-            'file' => v::image(),
-            'size' => v::size(null, $this->imgUpload['maxSize']),
-        ], true);
+        $validation = $this->validateUploadedFile($_FILES['image']['tmp_name']);
         if ($validation->failed()) {
-            return $response->withJSON(["message" => $validation->getErrors()], 400);
+            return $this->respondWithJson($response, ["message" => $validation->getErrors()], 400);
         }
 
         // Upload validation
+        $uploadedFile = $request->getUploadedFiles()['image'];
         if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
-            $this->logger->addError("Attempt to add image of pet #" . $pet->id . " failed");
-            return $response->withJson(["message" => "Image upload failed"], 500);
+            $this->logger->error("Attempt to add image of pet #" . $pet->id . " failed");
+            return $this->respondWithJson($response, ["message" => "Image upload failed"], 500);
         }
 
         // Move file
         try {
             $filename = $this->moveUploadedFile($this->imgUpload['directory'], $uploadedFile);
         } catch (\Exception $e) {
-            $this->logger->addError("Attempt to add image of pet #" . $pet->id . " failed");
-            return $response->withJson(["message" => "Image upload failed"], 500);
+            $this->logger->error("Attempt to add image of pet #" . $pet->id . " failed");
+            return $this->respondWithJson($response, ["message" => "Image upload failed"], 500);
         }
 
         // Deletion of old image
         if ($pet->image != "") {
             if (!is_writable($this->imgUpload['directory'] . $pet->image) || !unlink($this->imgUpload['directory'] . $pet->image)) {
-                $this->logger->addError("Attempt to delete image of pet #" . $pet->id . " failed");
-                return $response->withJson(["message" => "Image update failed"], 500);
+                $this->logger->error("Attempt to delete image of pet #" . $pet->id . " failed");
+                return $this->respondWithJson($response, ["message" => "Image upload failed"], 500);
             }
         }
 
@@ -92,31 +89,31 @@ class PetImageController extends BaseImageController {
         ]);
 
         // Response
-        return $response->withJson(["message" => "Successfully uploaded image"], 201);
+        return $this->respondWithJson($response, ["message" => "Successfully uploaded image"], 201);
     }
 
     /**
      * Delete image of pet based on id
      *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
+     * @param Request $request
+     * @param Response $response
      * @param array $args
-     * @return \Slim\Http\Response
+     * @return Response
      */
-    public function delete(Request $request, Response $response, array $args) {
+    public function delete(Request $request, Response $response, array $args): Response {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
-            return $response->withJson(["message" => "Pet not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Pet not found"], 404);
         }
         if ($pet->image == "") {
-            return $response->withJson(["message" => "Image not found"], 404);
+            return $this->respondWithJson($response, ["message" => "Image not found"], 404);
         }
 
         // File deletion
         if (!is_writable($this->imgUpload['directory'] . $pet->image) || !unlink($this->imgUpload['directory'] . $pet->image)) {
-            $this->logger->addError("Attempt to delete image of pet #" . $pet->id . " failed");
-            return $response->withJson(["message" => "Image deletion failed"], 500);
+            $this->logger->error("Attempt to delete image of pet #" . $pet->id . " failed");
+            return $this->respondWithJson($response, ["message" => "Image deletion failed"], 500);
         }
 
         // Database update
@@ -125,7 +122,7 @@ class PetImageController extends BaseImageController {
         ]);
 
         // Response
-        $this->logger->addInfo("Deleted image of pet #" . $pet->id . " - '" . $pet->name . "'");
-        return $response->withJson(["message" => "Successfully deleted image"], 200);
+        $this->logger->info("Deleted image of pet #" . $pet->id . " - '" . $pet->name . "'");
+        return $this->respondWithJson($response, ["message" => "Successfully deleted image"]);
     }
 }

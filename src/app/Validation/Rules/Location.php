@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher\Validation\Rules;
 
-use PetWatcher\Models\Pet;
 use Respect\Validation\Rules\AbstractRule;
 
 class Location extends AbstractRule {

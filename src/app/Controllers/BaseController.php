@@ -1,39 +1,53 @@
 <?php
+declare(strict_types=1);
 
 namespace PetWatcher\Controllers;
 
-use Slim\Container;
+use DI\Container;
+use DI\DependencyException;
+use DI\NotFoundException;
+use Illuminate\Database\Capsule\Manager;
+use Monolog\Logger;
+use PetWatcher\Validation\Validator;
+use Psr\Http\Message\ResponseInterface as Response;
 
 abstract class BaseController {
-    /**
-     * @var \Slim\Container $container Instance of dependency container
-     */
+    /** @var Container $container Instance of dependency container */
     protected $container;
 
-    /**
-     * @var \Illuminate\Database\Capsule\Manager $db Instance of database manager
-     */
+    /** @var Manager $db Instance of database manager */
     protected $db;
 
-    /**
-     * @var \Monolog\Logger $logger Instance of logger
-     */
+    /** @var Logger $logger Instance of logger */
     protected $logger;
 
-    /**
-     * @var \PetWatcher\Validation\Validator $validator Instance of validator
-     */
+    /** @var Validator $validator Instance of validator */
     protected $validator;
 
     /**
-     * Create a new base controller
+     * BaseController constructor
      *
-     * @param \Slim\Container $container
+     * @param Container $container
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function __construct(Container $container) {
-        $this->container = $container;
-        $this->db = $container['db'];
-        $this->logger = $container['logger'];
-        $this->validator = $container['validator'];
+        $this->db = $container->get('db');
+        $this->logger = $container->get('logger');
+        $this->validator = $container->get('validator');
+    }
+
+    /**
+     * Prepare response with JSON encoded payload
+     *
+     * @param Response $response
+     * @param $payload
+     * @param int $status
+     * @return Response
+     */
+    protected function respondWithJson(Response $response, $payload, int $status = 200): Response {
+        $json = json_encode($payload, JSON_PRETTY_PRINT);
+        $response->getBody()->write($json);
+        return $response->withHeader('Content-Type', 'application/json')->withStatus($status);
     }
 }
