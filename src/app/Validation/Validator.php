@@ -23,9 +23,17 @@ class Validator {
         foreach ($rules as $key => $rule) {
             try {
                 if ($file) {
-                    $rule->setName($key)->assert($input);
+                    if (!isset($input['image']['tmp_name'])) {
+                        // Assert fails on purpose when image is missing
+                        $rule->setName($key)->assert(false);
+                    }
+                    $rule->setName($key)->assert($input['image']['tmp_name']);
                 } else {
-                    $rule->setName($key)->assert($input->getParam($key));
+                    if (!isset($input->getParsedBody()[$key])) {
+                        // Assert fails on purpose when parameter is missing
+                        $rule->setName($key)->assert(false);
+                    }
+                    $rule->setName($key)->assert($input->getParsedBody()[$key]);
                 }
             } catch (NestedValidationException $e) {
                 $this->errors[$key] = $e->getMessages();

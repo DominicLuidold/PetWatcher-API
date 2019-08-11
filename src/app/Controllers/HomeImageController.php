@@ -55,7 +55,7 @@ class HomeImageController extends BaseImageController {
         }
 
         // Input validation
-        $validation = $this->validateUploadedFile($_FILES['image']['tmp_name']);
+        $validation = $this->validateUploadedFile($_FILES);
         if ($validation->failed()) {
             return $this->respondWithJson($response, ["message" => $validation->getErrors()], 400);
         }

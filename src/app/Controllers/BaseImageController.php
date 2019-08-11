@@ -12,7 +12,9 @@ use Respect\Validation\Validator as v;
 use Slim\Psr7\UploadedFile;
 
 abstract class BaseImageController extends BaseController {
-    /** @var string $imgUpload Image upload settings */
+    /**
+     * @var array $imgUpload Image upload settings
+     */
     protected $imgUpload;
 
     /**
@@ -30,10 +32,10 @@ abstract class BaseImageController extends BaseController {
     /**
      * Validate the uploaded file
      *
-     * @param string $image
+     * @param array $image
      * @return Validator
      */
-    protected function validateUploadedFile(string $image): Validator {
+    protected function validateUploadedFile(array $image): Validator {
         return $this->validator->validate($image, [
             'file' => v::image(),
             'size' => v::size(null, $this->imgUpload['maxSize']),

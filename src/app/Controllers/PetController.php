@@ -183,6 +183,7 @@ class PetController extends BaseController {
             'dateOfBirth' => v::unixTimestamp(),
             'weight' => v::numeric(),
             'location' => v::location(),
+            'home_id' => v::notEmpty(),
         ]);
     }
 }
