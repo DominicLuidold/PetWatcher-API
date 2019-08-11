@@ -14,9 +14,10 @@ class HomeController extends BaseController {
     /**
      * Get information about specific home
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function info(Request $request, Response $response, array $args): Response {
@@ -33,8 +34,9 @@ class HomeController extends BaseController {
     /**
      * Get information about all homes
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return Response
      */
     public function infoAll(Request $request, Response $response): Response {
@@ -53,9 +55,10 @@ class HomeController extends BaseController {
     /**
      * Get information about all pets living in this home
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function pets(Request $request, Response $response, array $args): Response {
@@ -79,8 +82,9 @@ class HomeController extends BaseController {
     /**
      * Create new home based on input
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return Response
      */
     public function create(Request $request, Response $response): Response {
@@ -91,9 +95,11 @@ class HomeController extends BaseController {
         }
 
         // Database insert
-        $home = Home::create([
-            'name' => $request->getParsedBody()['name'],
-        ]);
+        $home = Home::create(
+            [
+                'name' => $request->getParsedBody()['name'],
+            ]
+        );
 
         // Response
         $this->logger->info("Created home #" . $home->id . " - '" . $home->name . "'");
@@ -103,9 +109,10 @@ class HomeController extends BaseController {
     /**
      * Update home based on id and input, create new home if id does not exist
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function update(Request $request, Response $response, array $args): Response {
@@ -123,9 +130,11 @@ class HomeController extends BaseController {
         }
 
         // Database update
-        $home->update([
-            'name' => $request->getParsedBody()['name'],
-        ]);
+        $home->update(
+            [
+                'name' => $request->getParsedBody()['name'],
+            ]
+        );
 
         // Response
         $this->logger->info("Updated home #" . $home->id . " - '" . $home->name . "'");
@@ -135,9 +144,10 @@ class HomeController extends BaseController {
     /**
      * Delete home based on id
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function delete(Request $request, Response $response, array $args): Response {
@@ -149,8 +159,10 @@ class HomeController extends BaseController {
 
         // Abort deletion if pets still assigned to this home
         if ($home->pets()->get()) {
-            return $this->respondWithJson($response,
-                ["message" => "Cannot delete home - pets still assigned to this home"], 409);
+            return $this->respondWithJson(
+                $response,
+                ["message" => "Cannot delete home - pets still assigned to this home"], 409
+            );
         }
 
         // Database delete
@@ -164,8 +176,9 @@ class HomeController extends BaseController {
     /**
      * Delete all homes
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return Response
      */
     public function deleteAll(Request $request, Response $response): Response {
@@ -186,8 +199,10 @@ class HomeController extends BaseController {
         // Response
         if ($omittedHomes) {
             $this->logger->info("Attempted to delete all homes - some remain untouched");
-            return $this->respondWithJson($response, ["message" => "Cannot delete following homes - pets still assigned",
-                "homes" => $omittedHomes], 409);
+            return $this->respondWithJson(
+                $response, ["message" => "Cannot delete following homes - pets still assigned",
+                "homes" => $omittedHomes], 409
+            );
         }
         $this->logger->info("Deleted all homes");
         return $this->respondWithJson($response, ["message" => "Successfully deleted all homes"]);
@@ -197,11 +212,14 @@ class HomeController extends BaseController {
      * Validate input based on supplied request
      *
      * @param Request $request
+     * 
      * @return Validator
      */
     private function validateInput(Request $request): Validator {
-        return $this->validator->validate($request, [
-            'name' => v::alnum()->length(1, 255),
-        ]);
+        return $this->validator->validate(
+            $request, [
+                'name' => v::alnum()->length(1, 255),
+            ]
+        );
     }
 }

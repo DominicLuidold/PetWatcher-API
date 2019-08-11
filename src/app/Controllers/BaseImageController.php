@@ -21,6 +21,7 @@ abstract class BaseImageController extends BaseController {
      * BaseImageController constructor
      *
      * @param Container $container
+     *
      * @throws DependencyException
      * @throws NotFoundException
      */
@@ -33,21 +34,25 @@ abstract class BaseImageController extends BaseController {
      * Validate the uploaded file
      *
      * @param array $image
+     *
      * @return Validator
      */
     protected function validateUploadedFile(array $image): Validator {
-        return $this->validator->validate($image, [
-            'file' => v::image(),
-            'size' => v::size(null, $this->imgUpload['maxSize']),
-        ], true);
+        return $this->validator->validate(
+            $image, [
+                'file' => v::image(),
+                'size' => v::size(null, $this->imgUpload['maxSize']),
+            ], true
+        );
     }
 
     /**
      * Move the uploaded file to the upload directory and assigns it a unique name
      * to avoid overwriting an existing uploaded file
      *
-     * @param string $directory Directory to which the file is moved
+     * @param string       $directory    Directory to which the file is moved
      * @param UploadedFile $uploadedFile Uploaded file to move
+     *
      * @return string Filename of moved file
      * @throws Exception on any error during the move operation
      */

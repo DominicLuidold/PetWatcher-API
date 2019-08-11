@@ -15,9 +15,10 @@ class PetController extends BaseController {
     /**
      * Get information about specific pet
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function info(Request $request, Response $response, array $args): Response {
@@ -34,8 +35,9 @@ class PetController extends BaseController {
     /**
      * Get information about all pets
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return Response
      */
     public function infoAll(Request $request, Response $response): Response {
@@ -54,8 +56,9 @@ class PetController extends BaseController {
     /**
      * Create new pet based on input
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return Response
      */
     public function create(Request $request, Response $response): Response {
@@ -72,12 +75,14 @@ class PetController extends BaseController {
         }
 
         // Database insert
-        $pet = Pet::create([
-            'name' => $request->getParsedBody()['name'],
-            'dateOfBirth' => $request->getParsedBody()['dateOfBirth'],
-            'weight' => $request->getParsedBody()['weight'],
-            'location' => $request->getParsedBody()['location'],
-        ]);
+        $pet = Pet::create(
+            [
+                'name' => $request->getParsedBody()['name'],
+                'dateOfBirth' => $request->getParsedBody()['dateOfBirth'],
+                'weight' => $request->getParsedBody()['weight'],
+                'location' => $request->getParsedBody()['location'],
+            ]
+        );
         $home->pets()->save($pet);
 
         // Response
@@ -88,9 +93,10 @@ class PetController extends BaseController {
     /**
      * Update pet based on id and input, create new pet if id does not exist
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function update(Request $request, Response $response, array $args): Response {
@@ -114,12 +120,14 @@ class PetController extends BaseController {
         }
 
         // Database update
-        $pet->update([
-            'name' => $request->getParsedBody()['name'],
-            'dateOfBirth' => $request->getParsedBody()['dateOfBirth'],
-            'weight' => $request->getParsedBody()['weight'],
-            'location' => $request->getParsedBody()['location'],
-        ]);
+        $pet->update(
+            [
+                'name' => $request->getParsedBody()['name'],
+                'dateOfBirth' => $request->getParsedBody()['dateOfBirth'],
+                'weight' => $request->getParsedBody()['weight'],
+                'location' => $request->getParsedBody()['location'],
+            ]
+        );
         $home->pets()->save($pet);
 
         // Response
@@ -130,9 +138,10 @@ class PetController extends BaseController {
     /**
      * Delete pet based on id
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function delete(Request $request, Response $response, array $args): Response {
@@ -153,8 +162,9 @@ class PetController extends BaseController {
     /**
      * Delete all pets
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
+     *
      * @return Response
      */
     public function deleteAll(Request $request, Response $response) {
@@ -175,15 +185,18 @@ class PetController extends BaseController {
      * Validate input based on supplied request
      *
      * @param Request $request
+     *
      * @return Validator
      */
     private function validateInput(Request $request): Validator {
-        return $this->validator->validate($request, [
-            'name' => v::alpha()->length(1, 255),
-            'dateOfBirth' => v::unixTimestamp(),
-            'weight' => v::numeric(),
-            'location' => v::location(),
-            'home_id' => v::notEmpty(),
-        ]);
+        return $this->validator->validate(
+            $request, [
+                'name' => v::alpha()->length(1, 255),
+                'dateOfBirth' => v::unixTimestamp(),
+                'weight' => v::numeric(),
+                'location' => v::location(),
+                'home_id' => v::notEmpty(),
+            ]
+        );
     }
 }

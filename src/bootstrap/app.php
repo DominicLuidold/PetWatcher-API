@@ -25,8 +25,10 @@ $dependencies($app);
 $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);
 
-/** @var bool $displayErrorDetails */
-$displayErrorDetails = (bool)$container->get('settings')['displayErrorDetails'];
+/**
+ * @var bool $displayErrorDetails
+ */
+$displayErrorDetails = $container->get('settings')['displayErrorDetails'];
 
 // Add Error Middleware
 $app->addErrorMiddleware($displayErrorDetails, false, false);

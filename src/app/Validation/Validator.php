@@ -16,7 +16,8 @@ class Validator {
      *
      * @param mixed $input Input data
      * @param array $rules Set of validation rules
-     * @param bool $file Whether $input is a file
+     * @param bool  $file  Whether $input is a file
+     *
      * @return $this
      */
     public function validate($input, array $rules, bool $file = false) {

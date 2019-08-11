@@ -12,9 +12,10 @@ class PetImageController extends BaseImageController {
     /**
      * Get image of pet based on id
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function get(Request $request, Response $response, array $args): Response {
@@ -42,9 +43,10 @@ class PetImageController extends BaseImageController {
     /**
      * Add new image of pet. An already existing image will get removed
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function add(Request $request, Response $response, array $args): Response {
@@ -84,9 +86,11 @@ class PetImageController extends BaseImageController {
         }
 
         // Database update
-        $pet->update([
-            'image' => $filename,
-        ]);
+        $pet->update(
+            [
+                'image' => $filename,
+            ]
+        );
 
         // Response
         return $this->respondWithJson($response, ["message" => "Successfully uploaded image"], 201);
@@ -95,9 +99,10 @@ class PetImageController extends BaseImageController {
     /**
      * Delete image of pet based on id
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     * 
      * @return Response
      */
     public function delete(Request $request, Response $response, array $args): Response {
@@ -117,9 +122,11 @@ class PetImageController extends BaseImageController {
         }
 
         // Database update
-        $pet->update([
-            'image' => '',
-        ]);
+        $pet->update(
+            [
+                'image' => '',
+            ]
+        );
 
         // Response
         $this->logger->info("Deleted image of pet #" . $pet->id . " - '" . $pet->name . "'");

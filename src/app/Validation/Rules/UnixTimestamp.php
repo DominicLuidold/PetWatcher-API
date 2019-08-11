@@ -11,7 +11,8 @@ class UnixTimestamp extends AbstractRule {
      * Validate user input to confirm valid Unix timestamp
      *
      * @param $input
-     * @return bool Whether validation has failed
+     *
+     * @return bool Whether validation has succeeded
      */
     public function validate($input) {
         return ((string)(int)$input === $input)
