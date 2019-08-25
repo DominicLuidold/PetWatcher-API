@@ -25,14 +25,12 @@ class Validator {
             try {
                 if ($file) {
                     if (!isset($input['image']['tmp_name'])) {
-                        // Assert fails on purpose when image is missing
-                        $rule->setName($key)->assert(false);
+                        throw new NestedValidationException($key . ' must not be omitted');
                     }
                     $rule->setName($key)->assert($input['image']['tmp_name']);
                 } else {
                     if (!isset($input->getParsedBody()[$key])) {
-                        // Assert fails on purpose when parameter is missing
-                        $rule->setName($key)->assert(false);
+                        throw new NestedValidationException($key . ' must not be omitted');
                     }
                     $rule->setName($key)->assert($input->getParsedBody()[$key]);
                 }
