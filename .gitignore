@@ -8,4 +8,5 @@ composer.phar
 # Irrelevant files & folders
 logs/
 uploads/
+*.cache
 .env
