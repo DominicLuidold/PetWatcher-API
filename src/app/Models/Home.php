@@ -6,7 +6,8 @@ namespace PetWatcher\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Home extends Model {
+class Home extends Model
+{
     /**
      * {@inheritDoc}
      */
@@ -25,7 +26,8 @@ class Home extends Model {
      *
      * @return HasMany
      */
-    public function pets() {
+    public function pets()
+    {
         return $this->hasMany('PetWatcher\Models\Pet');
     }
 }

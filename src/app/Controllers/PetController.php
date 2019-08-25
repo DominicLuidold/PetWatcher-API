@@ -10,7 +10,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator as v;
 
-class PetController extends BaseController {
+class PetController extends BaseController
+{
 
     /**
      * Get information about specific pet
@@ -21,7 +22,8 @@ class PetController extends BaseController {
      *
      * @return Response
      */
-    public function info(Request $request, Response $response, array $args): Response {
+    public function info(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
@@ -40,7 +42,8 @@ class PetController extends BaseController {
      *
      * @return Response
      */
-    public function infoAll(Request $request, Response $response): Response {
+    public function infoAll(Request $request, Response $response): Response
+    {
         // Database query
         $pets = Pet::all();
 
@@ -61,7 +64,8 @@ class PetController extends BaseController {
      *
      * @return Response
      */
-    public function create(Request $request, Response $response): Response {
+    public function create(Request $request, Response $response): Response
+    {
         // Input validation
         $validation = $this->validateInput($request);
         if ($validation->failed()) {
@@ -99,7 +103,8 @@ class PetController extends BaseController {
      *
      * @return Response
      */
-    public function update(Request $request, Response $response, array $args): Response {
+    public function update(Request $request, Response $response, array $args): Response
+    {
         // Database query (pet)
         $pet = Pet::find($args['id']);
         if (!$pet) {
@@ -144,7 +149,8 @@ class PetController extends BaseController {
      *
      * @return Response
      */
-    public function delete(Request $request, Response $response, array $args): Response {
+    public function delete(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
@@ -167,7 +173,8 @@ class PetController extends BaseController {
      *
      * @return Response
      */
-    public function deleteAll(Request $request, Response $response) {
+    public function deleteAll(Request $request, Response $response)
+    {
         // Database query
         $pets = Pet::all();
 
@@ -188,9 +195,11 @@ class PetController extends BaseController {
      *
      * @return Validator
      */
-    private function validateInput(Request $request): Validator {
+    private function validateInput(Request $request): Validator
+    {
         return $this->validator->validate(
-            $request, [
+            $request,
+            [
                 'name' => v::alpha()->length(1, 255),
                 'dateOfBirth' => v::unixTimestamp(),
                 'weight' => v::numeric(),

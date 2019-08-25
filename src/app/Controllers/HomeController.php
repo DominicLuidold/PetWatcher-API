@@ -9,7 +9,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validator as v;
 
-class HomeController extends BaseController {
+class HomeController extends BaseController
+{
 
     /**
      * Get information about specific home
@@ -20,7 +21,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function info(Request $request, Response $response, array $args): Response {
+    public function info(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -39,7 +41,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function infoAll(Request $request, Response $response): Response {
+    public function infoAll(Request $request, Response $response): Response
+    {
         // Database query
         $homes = Home::all();
 
@@ -61,7 +64,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function pets(Request $request, Response $response, array $args): Response {
+    public function pets(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -87,7 +91,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function create(Request $request, Response $response): Response {
+    public function create(Request $request, Response $response): Response
+    {
         // Input validation
         $validation = $this->validateInput($request);
         if ($validation->failed()) {
@@ -115,7 +120,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function update(Request $request, Response $response, array $args): Response {
+    public function update(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -150,7 +156,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function delete(Request $request, Response $response, array $args): Response {
+    public function delete(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -161,7 +168,10 @@ class HomeController extends BaseController {
         if ($home->pets()->get()) {
             return $this->respondWithJson(
                 $response,
-                ["message" => "Cannot delete home - pets still assigned to this home"], 409
+                [
+                    "message" => "Cannot delete home - pets still assigned to this home"
+                ],
+                409
             );
         }
 
@@ -181,7 +191,8 @@ class HomeController extends BaseController {
      *
      * @return Response
      */
-    public function deleteAll(Request $request, Response $response): Response {
+    public function deleteAll(Request $request, Response $response): Response
+    {
         // Database query
         $homes = Home::all();
 
@@ -200,8 +211,12 @@ class HomeController extends BaseController {
         if ($omittedHomes) {
             $this->logger->info("Attempted to delete all homes - some remain untouched");
             return $this->respondWithJson(
-                $response, ["message" => "Cannot delete following homes - pets still assigned",
-                "homes" => $omittedHomes], 409
+                $response,
+                [
+                    "message" => "Cannot delete following homes - pets still assigned",
+                    "homes" => $omittedHomes
+                ],
+                409
             );
         }
         $this->logger->info("Deleted all homes");
@@ -212,12 +227,14 @@ class HomeController extends BaseController {
      * Validate input based on supplied request
      *
      * @param Request $request
-     * 
+     *
      * @return Validator
      */
-    private function validateInput(Request $request): Validator {
+    private function validateInput(Request $request): Validator
+    {
         return $this->validator->validate(
-            $request, [
+            $request,
+            [
                 'name' => v::alnum()->length(1, 255),
             ]
         );

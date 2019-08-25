@@ -20,8 +20,9 @@ return function (App $app) {
 
     // Database connection
     $container->set(
-        'db', function (Container $c) {
-            $capsule = new Capsule;
+        'db',
+        function (Container $c) {
+            $capsule = new Capsule();
             $capsule->addConnection($c->get('settings')['db']);
 
             $capsule->setAsGlobal();
@@ -33,7 +34,8 @@ return function (App $app) {
 
     // Logger
     $container->set(
-        'logger', function (Container $c) {
+        'logger',
+        function (Container $c) {
             $loggerSettings = $c->get('settings')['logger'];
 
             $logger = new Logger($loggerSettings['name']);
@@ -46,7 +48,8 @@ return function (App $app) {
 
     // Validator
     $container->set(
-        'validator', function () {
+        'validator',
+        function () {
             return new Validator();
         }
     );

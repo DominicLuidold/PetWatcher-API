@@ -5,7 +5,8 @@ namespace PetWatcher\Validation\Rules;
 
 use Respect\Validation\Rules\AbstractRule;
 
-class UnixTimestamp extends AbstractRule {
+class UnixTimestamp extends AbstractRule
+{
 
     /**
      * Validate user input to confirm valid Unix timestamp
@@ -14,7 +15,8 @@ class UnixTimestamp extends AbstractRule {
      *
      * @return bool Whether validation has succeeded
      */
-    public function validate($input) {
+    public function validate($input)
+    {
         return ((string)(int)$input === $input)
             && ($input <= PHP_INT_MAX)
             && ($input >= ~PHP_INT_MAX);

@@ -11,7 +11,8 @@ use Monolog\Logger;
 use PetWatcher\Validation\Validator;
 use Psr\Http\Message\ResponseInterface as Response;
 
-abstract class BaseController {
+abstract class BaseController
+{
     /**
      * @var Container $container Instance of dependency container
      */
@@ -40,7 +41,8 @@ abstract class BaseController {
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function __construct(Container $container) {
+    public function __construct(Container $container)
+    {
         $this->container = $container;
         $this->db = $container->get('db');
         $this->logger = $container->get('logger');
@@ -56,7 +58,8 @@ abstract class BaseController {
      *
      * @return Response
      */
-    protected function respondWithJson(Response $response, array $payload, int $status = 200): Response {
+    protected function respondWithJson(Response $response, array $payload, int $status = 200): Response
+    {
         $json = json_encode($payload, JSON_PRETTY_PRINT);
         $response->getBody()->write($json);
         return $response->withHeader('Content-Type', 'application/json')->withStatus($status);

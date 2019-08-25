@@ -7,7 +7,8 @@ use PetWatcher\Models\Home;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class HomeImageController extends BaseImageController {
+class HomeImageController extends BaseImageController
+{
 
     /**
      * Get image of home based on id
@@ -18,7 +19,8 @@ class HomeImageController extends BaseImageController {
      *
      * @return Response
      */
-    public function get(Request $request, Response $response, array $args): Response {
+    public function get(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -49,7 +51,8 @@ class HomeImageController extends BaseImageController {
      *
      * @return Response
      */
-    public function add(Request $request, Response $response, array $args): Response {
+    public function add(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -79,7 +82,8 @@ class HomeImageController extends BaseImageController {
 
         // Deletion of old image
         if ($home->image != "") {
-            if (!is_writable($this->imgUpload['directory'] . $home->image) || !unlink($this->imgUpload['directory'] . $home->image)) {
+            if (!is_writable($this->imgUpload['directory'] . $home->image)
+                    || !unlink($this->imgUpload['directory'] . $home->image)) {
                 $this->logger->error("Attempt to delete image of home #" . $home->id . " failed");
                 return $this->respondWithJson($response, ["message" => "Image upload failed"], 500);
             }
@@ -102,10 +106,11 @@ class HomeImageController extends BaseImageController {
      * @param Request  $request
      * @param Response $response
      * @param array    $args
-     * 
+     *
      * @return Response
      */
-    public function delete(Request $request, Response $response, array $args): Response {
+    public function delete(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $home = Home::find($args['id']);
         if (!$home) {
@@ -116,7 +121,8 @@ class HomeImageController extends BaseImageController {
         }
 
         // File deletion
-        if (!is_writable($this->imgUpload['directory'] . $home->image) || !unlink($this->imgUpload['directory'] . $home->image)) {
+        if (!is_writable($this->imgUpload['directory'] . $home->image)
+                || !unlink($this->imgUpload['directory'] . $home->image)) {
             $this->logger->error("Attempt to delete image of home #" . $home->id . " failed");
             return $this->respondWithJson($response, ["message" => "Image deletion failed"], 500);
         }

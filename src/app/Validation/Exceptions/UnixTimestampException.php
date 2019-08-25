@@ -5,7 +5,8 @@ namespace PetWatcher\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
-class UnixTimestampException extends ValidationException {
+class UnixTimestampException extends ValidationException
+{
 
     public static $defaultTemplates = [
         self::MODE_DEFAULT => [

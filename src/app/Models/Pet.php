@@ -6,7 +6,8 @@ namespace PetWatcher\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Pet extends Model {
+class Pet extends Model
+{
     /**
      * {@inheritDoc}
      */
@@ -35,7 +36,8 @@ class Pet extends Model {
      *
      * @return BelongsTo
      */
-    public function home() {
+    public function home()
+    {
         return $this->belongsTo('PetWatcher\Models\Home');
     }
 }

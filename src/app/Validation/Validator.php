@@ -5,7 +5,8 @@ namespace PetWatcher\Validation;
 
 use Respect\Validation\Exceptions\NestedValidationException;
 
-class Validator {
+class Validator
+{
     /**
      * @var array $errors List of all validation error messages
      */
@@ -20,7 +21,8 @@ class Validator {
      *
      * @return $this
      */
-    public function validate($input, array $rules, bool $file = false) {
+    public function validate($input, array $rules, bool $file = false)
+    {
         foreach ($rules as $key => $rule) {
             try {
                 if ($file) {
@@ -46,7 +48,8 @@ class Validator {
      *
      * @return bool Whether validation has failed
      */
-    public function failed() {
+    public function failed()
+    {
         return !empty($this->errors);
     }
 
@@ -55,7 +58,8 @@ class Validator {
      *
      * @return array Associative array with human-readable error messages
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->errors;
     }
 }

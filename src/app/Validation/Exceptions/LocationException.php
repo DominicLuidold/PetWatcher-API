@@ -5,7 +5,8 @@ namespace PetWatcher\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
-class LocationException extends ValidationException {
+class LocationException extends ValidationException
+{
 
     public static $defaultTemplates = [
         self::MODE_DEFAULT => [

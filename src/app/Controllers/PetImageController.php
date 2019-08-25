@@ -7,7 +7,8 @@ use PetWatcher\Models\Pet;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class PetImageController extends BaseImageController {
+class PetImageController extends BaseImageController
+{
 
     /**
      * Get image of pet based on id
@@ -18,7 +19,8 @@ class PetImageController extends BaseImageController {
      *
      * @return Response
      */
-    public function get(Request $request, Response $response, array $args): Response {
+    public function get(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
@@ -49,7 +51,8 @@ class PetImageController extends BaseImageController {
      *
      * @return Response
      */
-    public function add(Request $request, Response $response, array $args): Response {
+    public function add(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
@@ -79,7 +82,8 @@ class PetImageController extends BaseImageController {
 
         // Deletion of old image
         if ($pet->image != "") {
-            if (!is_writable($this->imgUpload['directory'] . $pet->image) || !unlink($this->imgUpload['directory'] . $pet->image)) {
+            if (!is_writable($this->imgUpload['directory'] . $pet->image)
+                    || !unlink($this->imgUpload['directory'] . $pet->image)) {
                 $this->logger->error("Attempt to delete image of pet #" . $pet->id . " failed");
                 return $this->respondWithJson($response, ["message" => "Image upload failed"], 500);
             }
@@ -102,10 +106,11 @@ class PetImageController extends BaseImageController {
      * @param Request  $request
      * @param Response $response
      * @param array    $args
-     * 
+     *
      * @return Response
      */
-    public function delete(Request $request, Response $response, array $args): Response {
+    public function delete(Request $request, Response $response, array $args): Response
+    {
         // Database query
         $pet = Pet::find($args['id']);
         if (!$pet) {
@@ -116,7 +121,8 @@ class PetImageController extends BaseImageController {
         }
 
         // File deletion
-        if (!is_writable($this->imgUpload['directory'] . $pet->image) || !unlink($this->imgUpload['directory'] . $pet->image)) {
+        if (!is_writable($this->imgUpload['directory'] . $pet->image)
+                || !unlink($this->imgUpload['directory'] . $pet->image)) {
             $this->logger->error("Attempt to delete image of pet #" . $pet->id . " failed");
             return $this->respondWithJson($response, ["message" => "Image deletion failed"], 500);
         }

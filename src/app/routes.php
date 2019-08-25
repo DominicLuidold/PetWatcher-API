@@ -12,10 +12,12 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     $app->group(
-        '/api', function (Group $group) {
+        '/api',
+        function (Group $group) {
             // API v1
             $group->group(
-                '/v1', function (Group $group) {
+                '/v1',
+                function (Group $group) {
                     // Pets
                     $group->get('/pets', PetController::class . ':infoAll');
                     $group->post('/pets', PetController::class . ':create');
@@ -26,7 +28,8 @@ return function (App $app) {
 
                     // Pet Images
                     $group->group(
-                        '/pets/{id}', function (Group $group) {
+                        '/pets/{id}',
+                        function (Group $group) {
                             $group->get('/image', PetImageController::class . ':get');
                             $group->post('/image', PetImageController::class . ':add');
                             $group->delete('/image', PetImageController::class . ':delete');
@@ -44,7 +47,8 @@ return function (App $app) {
 
                     // Home Images
                     $group->group(
-                        '/homes/{id}', function (Group $group) {
+                        '/homes/{id}',
+                        function (Group $group) {
                             $group->get('/image', HomeImageController::class . ':get');
                             $group->post('/image', HomeImageController::class . ':add');
                             $group->delete('/image', HomeImageController::class . ':delete');

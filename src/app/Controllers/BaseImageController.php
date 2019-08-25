@@ -11,7 +11,8 @@ use PetWatcher\Validation\Validator;
 use Respect\Validation\Validator as v;
 use Slim\Psr7\UploadedFile;
 
-abstract class BaseImageController extends BaseController {
+abstract class BaseImageController extends BaseController
+{
     /**
      * @var array $imgUpload Image upload settings
      */
@@ -25,7 +26,8 @@ abstract class BaseImageController extends BaseController {
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function __construct(Container $container) {
+    public function __construct(Container $container)
+    {
         parent::__construct($container);
         $this->imgUpload = $container->get('settings')['upload'];
     }
@@ -37,12 +39,15 @@ abstract class BaseImageController extends BaseController {
      *
      * @return Validator
      */
-    protected function validateUploadedFile(array $image): Validator {
+    protected function validateUploadedFile(array $image): Validator
+    {
         return $this->validator->validate(
-            $image, [
+            $image,
+            [
                 'file' => v::image(),
                 'size' => v::size(null, $this->imgUpload['maxSize']),
-            ], true
+            ],
+            true
         );
     }
 
@@ -56,7 +61,8 @@ abstract class BaseImageController extends BaseController {
      * @return string Filename of moved file
      * @throws Exception on any error during the move operation
      */
-    protected function moveUploadedFile(string $directory, UploadedFile $uploadedFile): string {
+    protected function moveUploadedFile(string $directory, UploadedFile $uploadedFile): string
+    {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
         $basename = bin2hex(random_bytes(16));
         $filename = sprintf('%s.%0.8s', $basename, $extension);

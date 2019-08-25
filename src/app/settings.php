@@ -19,7 +19,8 @@ return function (App $app) {
 
     // Global settings
     $container->set(
-        'settings', [
+        'settings',
+        [
             // Miscellaneous
             'displayErrorDetails' => (bool)getenv('DEBUG'),
 
