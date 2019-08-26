@@ -1,25 +1,28 @@
 <?php
 declare(strict_types=1);
 
-use DI\Container;
+use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-// Instantiate PHP-DI Container
-$container = new Container();
+// Instantiate PHP-DI ContainerBuilder
+$containerBuilder = new ContainerBuilder();
+
+// Set up settings
+$settings = require __DIR__ . '/../app/settings.php';
+$settings($containerBuilder);
+
+// Set up dependencies
+$dependencies = require __DIR__ . '/../app/dependencies.php';
+$dependencies($containerBuilder);
+
+// Build PHP-DI Container instance
+$container = $containerBuilder->build();
 
 // Instantiate the app
 AppFactory::setContainer($container);
 $app = AppFactory::create();
-
-// Set up settings
-$settings = require __DIR__ . '/../app/settings.php';
-$settings($app);
-
-// Set up dependencies
-$dependencies = require __DIR__ . '/../app/dependencies.php';
-$dependencies($app);
 
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';

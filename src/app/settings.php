@@ -3,24 +3,17 @@ declare(strict_types=1);
 
 namespace PetWatcher;
 
-use DI\Container;
+use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Monolog\Logger;
-use Slim\App;
 
 $dotenv = Dotenv::create(__DIR__ . '/../../');
 $dotenv->load();
 
-return function (App $app) {
-    /**
-     * @var Container $container Instance of dependency container
-     */
-    $container = $app->getContainer();
-
+return function (ContainerBuilder $containerBuilder) {
     // Global settings
-    $container->set(
-        'settings',
-        [
+    $containerBuilder->addDefinitions([
+        'settings' => [
             // Miscellaneous
             'displayErrorDetails' => (bool)getenv('DEBUG'),
 
@@ -48,6 +41,6 @@ return function (App $app) {
                 'collation' => getenv('DB_COLLATION'),
                 'prefix' => getenv('DB_PREFIX'),
             ],
-        ]
-    );
+        ],
+    ]);
 };

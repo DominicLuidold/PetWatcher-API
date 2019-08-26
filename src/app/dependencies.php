@@ -3,25 +3,20 @@ declare(strict_types=1);
 
 namespace PetWatcher;
 
-use DI\Container;
+use DI\ContainerBuilder;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PetWatcher\Validation\Validator;
+use Psr\Container\ContainerInterface;
 use Respect\Validation\Validator as v;
-use Slim\App;
 
-return function (App $app) {
-    /**
-     * @var Container $container Instance of dependency container
-     */
-    $container = $app->getContainer();
-
-    // Database connection
-    $container->set(
-        'db',
-        function (Container $c) {
+return function (ContainerBuilder $containerBuilder) {
+    // Global dependencies
+    $containerBuilder->addDefinitions([
+        // Database connection
+        'db' => function (ContainerInterface $c) {
             $capsule = new Capsule();
             $capsule->addConnection($c->get('settings')['db']);
 
@@ -29,13 +24,9 @@ return function (App $app) {
             $capsule->bootEloquent();
 
             return $capsule;
-        }
-    );
-
-    // Logger
-    $container->set(
-        'logger',
-        function (Container $c) {
+        },
+        // Logger
+        'logger' => function (ContainerInterface $c) {
             $loggerSettings = $c->get('settings')['logger'];
 
             $logger = new Logger($loggerSettings['name']);
@@ -43,16 +34,12 @@ return function (App $app) {
             $logger->pushHandler(new StreamHandler($loggerSettings['path'], $loggerSettings['level']));
 
             return $logger;
-        }
-    );
-
-    // Validator
-    $container->set(
-        'validator',
-        function () {
+        },
+        // Validator
+        'validator' => function () {
             return new Validator();
-        }
-    );
+        },
+    ]);
 
     // Custom validation rules
     v::with('PetWatcher\Validation\Rules');
