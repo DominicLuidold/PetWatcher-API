@@ -10,6 +10,7 @@ use Illuminate\Database\Capsule\Manager;
 use Monolog\Logger;
 use PetWatcher\Validation\Validator;
 use Psr\Http\Message\ResponseInterface as Response;
+use RuntimeException;
 
 abstract class BaseController
 {
@@ -53,14 +54,18 @@ abstract class BaseController
      * Prepare response with JSON encoded payload
      *
      * @param Response $response
-     * @param array    $payload
+     * @param mixed    $payload
      * @param int      $status
      *
      * @return Response
      */
-    protected function respondWithJson(Response $response, array $payload, int $status = 200): Response
+    protected function respondWithJson(Response $response, $payload, int $status = 200): Response
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);
+        if ($json === false) {
+            throw new RuntimeException('Malformed UTF-8 characters, possibly incorrectly encoded.');
+        }
+
         $response->getBody()->write($json);
         return $response->withHeader('Content-Type', 'application/json')->withStatus($status);
     }
