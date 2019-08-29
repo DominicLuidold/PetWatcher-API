@@ -15,6 +15,7 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         'settings' => [
             // Miscellaneous
+            'production' => (bool)getenv('PRODUCTION'),
             'displayErrorDetails' => (bool)getenv('DEBUG'),
 
             // Image upload
@@ -43,4 +44,9 @@ return function (ContainerBuilder $containerBuilder) {
             ],
         ],
     ]);
+
+    // Container cache
+    if ((bool)getenv('PRODUCTION')) {
+        $containerBuilder->enableCompilation(__DIR__ . '/../../var/cache');
+    }
 };
