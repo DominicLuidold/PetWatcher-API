@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PetWatcher\Controllers;
 
+use Exception;
 use PetWatcher\Models\Home;
 use PetWatcher\Models\Pet;
 use PetWatcher\Validation\Validator;
@@ -148,6 +149,7 @@ class PetController extends BaseController
      * @param array    $args
      *
      * @return Response
+     * @throws Exception
      */
     public function delete(Request $request, Response $response, array $args): Response
     {
