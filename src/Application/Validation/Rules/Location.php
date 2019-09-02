@@ -7,9 +7,8 @@ use Respect\Validation\Rules\AbstractRule;
 
 class Location extends AbstractRule
 {
-
     /**
-     * Validate user input to confirm valid location
+     * Validate user input to confirm valid location.
      *
      * @param $input
      *

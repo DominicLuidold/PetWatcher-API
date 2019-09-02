@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PetWatcher\Application\Actions\Home;
 
+use Exception;
 use PetWatcher\Application\Actions\Action;
 use PetWatcher\Domain\Home;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -10,7 +11,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class DeleteHomeAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * Delete a specific home, if unoccupied.
+     *
+     * @return Response
      */
     protected function action(): Response
     {
@@ -26,7 +29,12 @@ class DeleteHomeAction extends Action
         }
 
         // Database delete
-        $home->delete();
+        try {
+            $home->delete();
+        } catch (Exception $e) {
+            $this->logger->error("Attempt to delete home #" . $home->id . " failed");
+            return $this->respondWithJson(["message" => "Home deletion failed"], 500);
+        }
 
         // Response
         $this->logger->info("Deleted home #" . $home->id . " - '" . $home->name . "'");

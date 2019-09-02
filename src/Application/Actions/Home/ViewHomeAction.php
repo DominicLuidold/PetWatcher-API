@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class ViewHomeAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * View a specific home.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

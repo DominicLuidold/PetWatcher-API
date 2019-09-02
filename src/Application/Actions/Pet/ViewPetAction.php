@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class ViewPetAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * View a specific pet.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

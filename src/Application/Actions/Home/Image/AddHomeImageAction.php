@@ -10,7 +10,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 class AddHomeImageAction extends ImageAction
 {
     /**
-     * {@inheritDoc}
+     * Add a new image to a specific home.
+     * An already existing image will get replaced.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

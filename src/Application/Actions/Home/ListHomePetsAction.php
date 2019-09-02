@@ -11,7 +11,9 @@ use Slim\Routing\RouteContext;
 class ListHomePetsAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * List all pets living in specific home.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

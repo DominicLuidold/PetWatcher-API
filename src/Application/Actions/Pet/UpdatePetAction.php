@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class UpdatePetAction extends PetAction
 {
     /**
-     * {@inheritDoc}
+     * Update a specific pet or create a new one, if pet does not exist.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

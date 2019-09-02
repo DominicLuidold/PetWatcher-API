@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class DeletePetImageAction extends ImageAction
 {
     /**
-     * {@inheritDoc}
+     * Delete an image of a specific pet.
+     *
+     * @return Response
      */
     public function action(): Response
     {

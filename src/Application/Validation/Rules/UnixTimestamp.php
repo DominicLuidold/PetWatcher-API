@@ -7,9 +7,8 @@ use Respect\Validation\Rules\AbstractRule;
 
 class UnixTimestamp extends AbstractRule
 {
-
     /**
-     * Validate user input to confirm valid Unix timestamp
+     * Validate user input to confirm valid Unix timestamp.
      *
      * @param $input
      *

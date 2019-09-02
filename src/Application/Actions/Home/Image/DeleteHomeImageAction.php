@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class DeleteHomeImageAction extends ImageAction
 {
     /**
-     * {@inheritDoc}
+     * Delete an image of a specific home.
+     *
+     * @return Response
      */
     public function action(): Response
     {

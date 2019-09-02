@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use PetWatcher\Application\Actions\Home\CreateHomeAction;
 use PetWatcher\Application\Actions\Home\DeleteHomeAction;
-use PetWatcher\Application\Actions\Home\DeleteHomesAction;
+use PetWatcher\Application\Actions\Home\DeleteAllHomesAction;
 use PetWatcher\Application\Actions\Home\Image\AddHomeImageAction;
 use PetWatcher\Application\Actions\Home\Image\DeleteHomeImageAction;
 use PetWatcher\Application\Actions\Home\Image\ViewHomeImageAction;
@@ -13,7 +13,7 @@ use PetWatcher\Application\Actions\Home\UpdateHomeAction;
 use PetWatcher\Application\Actions\Home\ViewHomeAction;
 use PetWatcher\Application\Actions\Pet\CreatePetAction;
 use PetWatcher\Application\Actions\Pet\DeletePetAction;
-use PetWatcher\Application\Actions\Pet\DeletePetsAction;
+use PetWatcher\Application\Actions\Pet\DeleteAllPetsAction;
 use PetWatcher\Application\Actions\Pet\Image\AddPetImageAction;
 use PetWatcher\Application\Actions\Pet\Image\DeletePetImageAction;
 use PetWatcher\Application\Actions\Pet\Image\ViewPetImageAction;
@@ -30,7 +30,7 @@ return function (App $app) {
             // Pets
             $group->get('/pets', ListPetsAction::class)->setName('list-pets');
             $group->post('/pets', CreatePetAction::class)->setName('create-pet');
-            $group->delete('/pets', DeletePetsAction::class)->setName('delete-pets');
+            $group->delete('/pets', DeleteAllPetsAction::class)->setName('delete-pets');
             $group->get('/pets/{id}', ViewPetAction::class)->setName('view-pet');
             $group->put('/pets/{id}', UpdatePetAction::class)->setName('update-pet');
             $group->delete('/pets/{id}', DeletePetAction::class)->setName('delete-pet');
@@ -45,7 +45,7 @@ return function (App $app) {
             // Homes
             $group->get('/homes', ListHomesAction::class)->setName('list-homes');
             $group->post('/homes', CreateHomeAction::class)->setName('create-home');
-            $group->delete('/homes', DeleteHomesAction::class)->setName('delete-homes');
+            $group->delete('/homes', DeleteAllHomesAction::class)->setName('delete-homes');
             $group->get('/homes/{id}', ViewHomeAction::class)->setName('view-home');
             $group->put('/homes/{id}', UpdateHomeAction::class)->setName('update-home');
             $group->delete('/homes/{id}', DeleteHomeAction::class)->setName('delete-home');

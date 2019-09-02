@@ -11,7 +11,9 @@ use Slim\Routing\RouteContext;
 class ListHomesAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * List all homes.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

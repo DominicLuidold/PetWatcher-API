@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class ViewHomeImageAction extends ImageAction
 {
     /**
-     * {@inheritDoc}
+     * View the image of a specific home.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

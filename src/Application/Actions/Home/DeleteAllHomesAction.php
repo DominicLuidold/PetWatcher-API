@@ -7,10 +7,12 @@ use PetWatcher\Application\Actions\Action;
 use PetWatcher\Domain\Home;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class DeleteHomesAction extends Action
+class DeleteAllHomesAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * Delete all unoccupied homes.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

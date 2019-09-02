@@ -9,7 +9,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class UpdateHomeAction extends HomeAction
 {
     /**
-     * {@inheritDoc}
+     * Update a specific home or create a new one, if home does not exist.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

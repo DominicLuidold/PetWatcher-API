@@ -38,7 +38,7 @@ class Pet extends Model
     ];
 
     /**
-     * Get the home of this pet
+     * Get the home this pet lives in.
      *
      * @return BelongsTo
      */

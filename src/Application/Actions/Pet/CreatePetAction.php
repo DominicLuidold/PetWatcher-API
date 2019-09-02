@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class CreatePetAction extends PetAction
 {
     /**
-     * {@inheritDoc}
+     * Create a new pet based on input.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

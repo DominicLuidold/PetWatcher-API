@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PetWatcher\Application\Actions\Pet;
 
+use Exception;
 use PetWatcher\Application\Actions\Action;
 use PetWatcher\Domain\Pet;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -10,7 +11,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class DeletePetAction extends Action
 {
     /**
-     * {@inheritDoc}
+     * Delete a specific pet.
+     *
+     * @return Response
      */
     protected function action(): Response
     {
@@ -21,7 +24,12 @@ class DeletePetAction extends Action
         }
 
         // Database delete
-        $pet->delete();
+        try {
+            $pet->delete();
+        } catch (Exception $e) {
+            $this->logger->error("Attempt to delete pet #" . $pet->id . " failed");
+            return $this->respondWithJson(["message" => "Pet deletion failed"], 500);
+        }
 
         // Response
         $this->logger->info("Deleted pet #" . $pet->id . " - '" . $pet->name . "'");

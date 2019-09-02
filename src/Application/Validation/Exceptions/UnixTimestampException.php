@@ -7,7 +7,6 @@ use Respect\Validation\Exceptions\ValidationException;
 
 class UnixTimestampException extends ValidationException
 {
-
     public static $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be a valid Unix timestamp'

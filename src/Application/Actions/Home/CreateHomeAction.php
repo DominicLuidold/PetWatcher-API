@@ -9,7 +9,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class CreateHomeAction extends HomeAction
 {
     /**
-     * {@inheritDoc}
+     * Create a new home based on input.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

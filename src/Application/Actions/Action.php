@@ -85,8 +85,6 @@ abstract class Action
     }
 
     /**
-     * TODO
-     *
      * @return Response
      */
     abstract protected function action(): Response;

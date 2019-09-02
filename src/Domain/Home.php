@@ -28,7 +28,7 @@ class Home extends Model
     ];
 
     /**
-     * Get the pets living in this home
+     * Get all pets living in this home.
      *
      * @return HasMany
      */

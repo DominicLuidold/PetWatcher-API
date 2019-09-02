@@ -10,7 +10,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 class ViewPetImageAction extends ImageAction
 {
     /**
-     * {@inheritDoc}
+     * View the image of a specific pet.
+     *
+     * @return Response
      */
     protected function action(): Response
     {

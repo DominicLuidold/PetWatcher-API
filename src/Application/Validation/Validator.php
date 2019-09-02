@@ -13,7 +13,7 @@ class Validator
     private $errors = [];
 
     /**
-     * Validate input and write occurring error messages into associative array
+     * Validate input and write occurring error messages into associative array.
      *
      * @param mixed $input Input data
      * @param array $rules Set of validation rules
@@ -44,7 +44,7 @@ class Validator
     }
 
     /**
-     * Check if any validation error occurred
+     * Check if any validation error occurred.
      *
      * @return bool Whether validation has failed
      */
@@ -54,7 +54,7 @@ class Validator
     }
 
     /**
-     * Get all validation error messages
+     * Get all validation error messages.
      *
      * @return array Associative array with human-readable error messages
      */
