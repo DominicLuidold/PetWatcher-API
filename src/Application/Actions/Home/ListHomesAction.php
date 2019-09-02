@@ -6,6 +6,7 @@ namespace PetWatcher\Application\Actions\Home;
 use PetWatcher\Application\Actions\Action;
 use PetWatcher\Domain\Home;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteContext;
 
 class ListHomesAction extends Action
 {
@@ -18,8 +19,9 @@ class ListHomesAction extends Action
         $homes = Home::all();
 
         // Insert resource-specific URI to ease further navigation
+        $routeContext = RouteContext::fromRequest($this->request);
         foreach ($homes as $home) {
-            $home->URI = $this->request->getUri()->getPath() . '/' . $home->id;
+            $home->URI = $routeContext->getRouteParser()->relativeUrlFor('view-home', ['id' => $home->id]);
         }
 
         // Response

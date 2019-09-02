@@ -45,6 +45,6 @@ return function (ContainerBuilder $containerBuilder) {
 
     // Container cache
     if (getenv('PRODUCTION') === 'true') {
-        $containerBuilder->enableCompilation(__DIR__ . '/../../var/cache');
+        $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
     }
 };

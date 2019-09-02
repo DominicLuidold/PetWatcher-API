@@ -33,6 +33,9 @@ $routes($app);
  */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
 
+// Add routing middleware
+$app->addRoutingMiddleware();
+
 // Add error middleware
 $app->addErrorMiddleware($displayErrorDetails, false, false);
 

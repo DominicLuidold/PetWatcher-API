@@ -14,8 +14,8 @@
         "monolog/monolog": "^2.0",
         "php-di/php-di": "^6.0",
         "respect/validation": "^1.1",
-        "slim/slim": "^4.2",
         "slim/psr7": "^0.5",
+        "slim/slim": "^4.2",
         "vlucas/phpdotenv": "^3.5"
     },
     "require-dev": {
@@ -33,7 +33,7 @@
         }
     },
     "scripts": {
-        "start": "php -S localhost:8080 -t src/public",
+        "start": "php -S localhost:8080 -t public",
         "test": [
             "@phpunit",
             "@phpcs"
