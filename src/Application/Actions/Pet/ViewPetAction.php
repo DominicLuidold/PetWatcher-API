@@ -19,10 +19,10 @@ class ViewPetAction extends Action
         // Database query
         $pet = Pet::find($this->args['id']);
         if (!$pet) {
-            return $this->respondWithJson(["message" => "Pet not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Pet not found");
         }
 
         // Response
-        return $this->respondWithJson($pet);
+        return $this->respondWithJson(self::SUCCESS, 200, ['pet' => $pet]);
     }
 }

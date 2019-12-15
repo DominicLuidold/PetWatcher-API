@@ -19,13 +19,18 @@ class CreatePetAction extends PetAction
         // Input validation
         $validation = $this->validateInput($this->request);
         if ($validation->failed()) {
-            return $this->respondWithJson(["message" => $validation->getErrors()], 400);
+            return $this->respondWithJson(
+                self::FAILURE,
+                400,
+                $validation->getErrors(),
+                "Input does not match requirements"
+            );
         }
 
         // Database query
         $home = Home::find($this->request->getParsedBody()['home_id']);
         if (!$home) {
-            return $this->respondWithJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
 
         // Database insert
@@ -41,6 +46,6 @@ class CreatePetAction extends PetAction
 
         // Response
         $this->logger->info("Created pet #" . $pet->id . " - '" . $pet->name . "'");
-        return $this->respondWithJson(["message" => "Successfully created pet", "id" => $pet->id], 201);
+        return $this->respondWithJson(self::SUCCESS, 201, ['pet' => $pet]);
     }
 }

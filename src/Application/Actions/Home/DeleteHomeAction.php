@@ -20,12 +20,17 @@ class DeleteHomeAction extends Action
         // Database query
         $home = Home::find($this->args['id']);
         if (!$home) {
-            return $this->respondWithJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
 
         // Abort deletion if pets still assigned to this home
         if (!$home->pets()->get()->isEmpty()) {
-            return $this->respondWithJson(["message" => "Cannot delete home - pets still assigned to this home"], 409);
+            return $this->respondWithJson(
+                self::FAILURE,
+                409,
+                null,
+                "Cannot delete home - pet(s) still assigned to this home"
+            );
         }
 
         // Database delete
@@ -33,11 +38,11 @@ class DeleteHomeAction extends Action
             $home->delete();
         } catch (Exception $e) {
             $this->logger->error("Attempt to delete home #" . $home->id . " failed");
-            return $this->respondWithJson(["message" => "Home deletion failed"], 500);
+            return $this->respondWithJson(self::ERROR, 500, null, "Home deletion failed");
         }
 
         // Response
         $this->logger->info("Deleted home #" . $home->id . " - '" . $home->name . "'");
-        return $this->respondWithJson(["message" => "Successfully deleted home"]);
+        return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

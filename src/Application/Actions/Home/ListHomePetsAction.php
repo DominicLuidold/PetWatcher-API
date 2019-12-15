@@ -20,7 +20,7 @@ class ListHomePetsAction extends Action
         // Database query
         $home = Home::find($this->args['id']);
         if (!$home) {
-            return $this->respondWithJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
         $pets = $home->pets()->get();
 
@@ -31,6 +31,6 @@ class ListHomePetsAction extends Action
         }
 
         // Response
-        return $this->respondWithJson($pets);
+        return $this->respondWithJson(self::SUCCESS, 200, ['pets' => $pets]);
     }
 }

@@ -18,7 +18,12 @@ class CreateHomeAction extends HomeAction
         // Input validation
         $validation = $this->validateInput($this->request);
         if ($validation->failed()) {
-            return $this->respondWithJson(["message" => $validation->getErrors()], 400);
+            return $this->respondWithJson(
+                self::FAILURE,
+                400,
+                $validation->getErrors(),
+                "Input does not match requirements"
+            );
         }
 
         // Database insert
@@ -30,6 +35,6 @@ class CreateHomeAction extends HomeAction
 
         // Response
         $this->logger->info("Created home #" . $home->id . " - '" . $home->name . "'");
-        return $this->respondWithJson(["message" => "Successfully created home", "id" => $home->id], 201);
+        return $this->respondWithJson(self::SUCCESS, 201, ['home' => $home]);
     }
 }

@@ -19,17 +19,17 @@ class DeletePetImageAction extends ImageAction
         // Database query
         $pet = Pet::find($this->args['id']);
         if (!$pet) {
-            return $this->respondWithJson(["message" => "Pet not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Pet not found");
         }
         if ($pet->image == "") {
-            return $this->respondWithJson(["message" => "Image not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 
         // File deletion
         if (!is_writable($this->imgUpload['directory'] . $pet->image)
             || !unlink($this->imgUpload['directory'] . $pet->image)) {
             $this->logger->error("Attempt to delete image of pet #" . $pet->id . " failed");
-            return $this->respondWithJson(["message" => "Image deletion failed"], 500);
+            return $this->respondWithJson(self::ERROR, 500, null, "Image deletion failed");
         }
 
         // Database update
@@ -41,6 +41,6 @@ class DeletePetImageAction extends ImageAction
 
         // Response
         $this->logger->info("Deleted image of pet #" . $pet->id . " - '" . $pet->name . "'");
-        return $this->respondWithJson(["message" => "Successfully deleted image"]);
+        return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

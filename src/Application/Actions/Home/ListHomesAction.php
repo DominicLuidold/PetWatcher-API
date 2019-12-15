@@ -27,6 +27,6 @@ class ListHomesAction extends Action
         }
 
         // Response
-        return $this->respondWithJson($homes);
+        return $this->respondWithJson(self::SUCCESS, 200, ['homes' => $homes]);
     }
 }

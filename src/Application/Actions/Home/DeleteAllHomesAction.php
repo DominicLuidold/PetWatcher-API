@@ -34,14 +34,13 @@ class DeleteAllHomesAction extends Action
         if ($omittedHomes) {
             $this->logger->info("Attempted to delete all homes - some remain untouched");
             return $this->respondWithJson(
-                [
-                    "message" => "Cannot delete following homes - pets still assigned",
-                    "homes" => $omittedHomes
-                ],
-                409
+                self::FAILURE,
+                409,
+                ['homes' => $omittedHomes],
+                "Cannot delete the following homes - pets still assigned"
             );
         }
         $this->logger->info("Deleted all homes");
-        return $this->respondWithJson(["message" => "Successfully deleted all homes"]);
+        return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

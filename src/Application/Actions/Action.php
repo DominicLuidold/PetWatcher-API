@@ -14,6 +14,21 @@ use RuntimeException;
 abstract class Action
 {
     /**
+     * @var string Action resulted in a success
+     */
+    protected const SUCCESS = 'success';
+
+    /**
+     * @var string Action resulted in a failure (due to invalid data or call conditions)
+     */
+    protected const FAILURE = 'failure';
+
+    /**
+     * @var string Action resulted in an error (due to an error on the server)
+     */
+    protected const ERROR = 'error';
+
+    /**
      * @var ContainerInterface $container
      */
     protected $container;
@@ -90,21 +105,40 @@ abstract class Action
     abstract protected function action(): Response;
 
     /**
-     * Prepare response with JSON encoded payload.
+     * Respond with JSON encoded payload and additional information.
      *
-     * @param mixed    $payload
-     * @param int      $status
+     * @param string      $status
+     * @param int         $statusCode
+     * @param mixed       $payload
+     * @param string|null $message
      *
      * @return Response
      */
-    protected function respondWithJson($payload, int $status = 200): Response
-    {
-        $json = json_encode($payload, JSON_PRETTY_PRINT);
+    protected function respondWithJson(
+        string $status,
+        int $statusCode,
+        $payload,
+        string $message = null
+    ): Response {
+        // Prepare response
+        $response = [
+            'status' => $status,
+            'code' => $statusCode,
+            'message' => $message,
+            'data' => $payload,
+        ];
+        if ($status === self::SUCCESS) {
+            unset($response['message']);
+        }
+
+        // Encode response
+        $json = json_encode($response, JSON_PRETTY_PRINT);
         if ($json === false) {
             throw new RuntimeException('Malformed UTF-8 characters, possibly incorrectly encoded.');
         }
 
+        // Response
         $this->response->getBody()->write($json);
-        return $this->response->withHeader('Content-Type', 'application/json')->withStatus($status);
+        return $this->response->withHeader('Content-Type', 'application/json')->withStatus($statusCode);
     }
 }

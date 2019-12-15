@@ -26,6 +26,6 @@ class DeleteAllPetsAction extends Action
 
         // Response
         $this->logger->info("Deleted all pets");
-        return $this->respondWithJson(["message" => "Successfully deleted all pets"]);
+        return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

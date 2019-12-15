@@ -19,17 +19,17 @@ class ViewHomeImageAction extends ImageAction
         // Database query
         $home = Home::find($this->args['id']);
         if (!$home) {
-            return $this->respondWithJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
         if ($home->image == "") {
-            return $this->respondWithJson(["message" => "Image not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 
         // Read file
         $imagePath = $this->imgUpload['directory'] . $home->image;
         if (!file_exists($imagePath) || !($image = file_get_contents($imagePath))) {
             $this->logger->error("Attempt to read image of home #" . $home->id . " failed");
-            return $this->respondWithJson(["message" => "Internal error"], 500);
+            return $this->respondWithJson(self::ERROR, 500, null, "Internal error");
         }
 
         // Response

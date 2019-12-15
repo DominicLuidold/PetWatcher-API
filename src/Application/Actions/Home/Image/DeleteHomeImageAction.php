@@ -19,17 +19,17 @@ class DeleteHomeImageAction extends ImageAction
         // Database query
         $home = Home::find($this->args['id']);
         if (!$home) {
-            return $this->respondWithJson(["message" => "Home not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
         if ($home->image == "") {
-            return $this->respondWithJson(["message" => "Image not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 
         // File deletion
         if (!is_writable($this->imgUpload['directory'] . $home->image)
             || !unlink($this->imgUpload['directory'] . $home->image)) {
             $this->logger->error("Attempt to delete image of home #" . $home->id . " failed");
-            return $this->respondWithJson(["message" => "Image deletion failed"], 500);
+            return $this->respondWithJson(self::ERROR, 500, null, "Image deletion failed");
         }
 
         // Database update
@@ -41,6 +41,6 @@ class DeleteHomeImageAction extends ImageAction
 
         // Response
         $this->logger->info("Deleted image of home #" . $home->id . " - '" . $home->name . "'");
-        return $this->respondWithJson(["message" => "Successfully deleted image"]);
+        return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

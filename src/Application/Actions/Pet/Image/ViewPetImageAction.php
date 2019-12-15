@@ -19,17 +19,17 @@ class ViewPetImageAction extends ImageAction
         // Database query
         $pet = Pet::find($this->args['id']);
         if (!$pet) {
-            return $this->respondWithJson(["message" => "Pet not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Pet not found");
         }
         if ($pet->image == "") {
-            return $this->respondWithJson(["message" => "Image not found"], 404);
+            return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 
         // Read file
         $imagePath = $this->imgUpload['directory'] . $pet->image;
         if (!file_exists($imagePath) || !($image = file_get_contents($imagePath))) {
             $this->logger->error("Attempt to read image of pet #" . $pet->id . " failed");
-            return $this->respondWithJson(["message" => "Internal error"], 500);
+            return $this->respondWithJson(self::ERROR, 500, null, "Internal error");
         }
 
         // Response

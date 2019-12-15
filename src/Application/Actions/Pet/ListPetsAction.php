@@ -27,6 +27,6 @@ class ListPetsAction extends Action
         }
 
         // Response
-        return $this->respondWithJson($pets);
+        return $this->respondWithJson(self::SUCCESS, 200, ['pets' => $pets]);
     }
 }

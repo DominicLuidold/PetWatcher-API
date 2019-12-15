@@ -25,7 +25,12 @@ class UpdateHomeAction extends HomeAction
         // Input validation
         $validation = $this->validateInput($this->request);
         if ($validation->failed()) {
-            return $this->respondWithJson(["message" => $validation->getErrors()], 400);
+            return $this->respondWithJson(
+                self::FAILURE,
+                400,
+                $validation->getErrors(),
+                "Input does not match requirements"
+            );
         }
 
         // Database update
@@ -37,6 +42,6 @@ class UpdateHomeAction extends HomeAction
 
         // Response
         $this->logger->info("Updated home #" . $home->id . " - '" . $home->name . "'");
-        return $this->respondWithJson(["message" => "Successfully updated home"]);
+        return $this->respondWithJson(self::SUCCESS, 200, ['home' => $home]);
     }
 }
