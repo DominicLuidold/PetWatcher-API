@@ -5,7 +5,7 @@ use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Monolog\Logger;
 
-$dotenv = Dotenv::create(__DIR__ . '/../');
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 return function (ContainerBuilder $containerBuilder) {
