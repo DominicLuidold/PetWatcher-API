@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PetWatcher\Application\Actions\Home\Image;
 
+use Exception;
 use PetWatcher\Application\Actions\ImageAction;
 use PetWatcher\Domain\Home;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -46,13 +47,13 @@ class AddHomeImageAction extends ImageAction
         // Move file
         try {
             $filename = $this->moveUploadedFile($this->imgUpload['directory'], $uploadedFile);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error("Attempt to add image of home #" . $home->id . " failed");
             return $this->respondWithJson(self::ERROR, 500, null, "Image upload failed");
         }
 
         // Deletion of old image
-        if ($home->image != "") {
+        if ($home->image != null) {
             if (!is_writable($this->imgUpload['directory'] . $home->image)
                 || !unlink($this->imgUpload['directory'] . $home->image)) {
                 $this->logger->error("Attempt to delete image of home #" . $home->id . " failed");

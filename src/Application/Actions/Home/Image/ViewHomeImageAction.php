@@ -21,7 +21,7 @@ class ViewHomeImageAction extends ImageAction
         if (!$home) {
             return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
-        if ($home->image == "") {
+        if ($home->image == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 

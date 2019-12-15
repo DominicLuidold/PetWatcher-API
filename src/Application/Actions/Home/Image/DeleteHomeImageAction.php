@@ -21,7 +21,7 @@ class DeleteHomeImageAction extends ImageAction
         if (!$home) {
             return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
         }
-        if ($home->image == "") {
+        if ($home->image == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 
@@ -35,7 +35,7 @@ class DeleteHomeImageAction extends ImageAction
         // Database update
         $home->update(
             [
-                'image' => '',
+                'image' => null,
             ]
         );
 

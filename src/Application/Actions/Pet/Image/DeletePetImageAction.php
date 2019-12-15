@@ -21,7 +21,7 @@ class DeletePetImageAction extends ImageAction
         if (!$pet) {
             return $this->respondWithJson(self::FAILURE, 404, null, "Pet not found");
         }
-        if ($pet->image == "") {
+        if ($pet->image == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, "Image not found");
         }
 
@@ -35,7 +35,7 @@ class DeletePetImageAction extends ImageAction
         // Database update
         $pet->update(
             [
-                'image' => '',
+                'image' => null,
             ]
         );
 
