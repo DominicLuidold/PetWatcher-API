@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PetWatcher\Tests\Validation\Rules;
 
-use PetWatcher\Validation\Rules\UnixTimestamp;
+use PetWatcher\Application\Validation\Rules\UnixTimestamp;
 use PHPUnit\Framework\TestCase;
 
 class UnixTimestampTest extends TestCase

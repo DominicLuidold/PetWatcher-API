@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace PetWatcher\Tests\Validation;
 
-use PetWatcher\Validation\Validator;
+use PetWatcher\Application\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 use Respect\Validation\Validator as v;
 use Slim\Psr7\Environment;
