@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PetWatcher\Application\Actions\Pet\Image;
@@ -54,8 +55,10 @@ class AddPetImageAction extends ImageAction
 
         // Deletion of old image
         if ($pet->image != null) {
-            if (!is_writable($this->imgUpload['directory'] . $pet->image)
-                || !unlink($this->imgUpload['directory'] . $pet->image)) {
+            if (
+                !is_writable($this->imgUpload['directory'] . $pet->image)
+                || !unlink($this->imgUpload['directory'] . $pet->image)
+            ) {
                 $this->logger->error("Attempt to delete image of pet #" . $pet->id . " failed");
                 return $this->respondWithJson(self::ERROR, 500, null, "Image upload failed");
             }

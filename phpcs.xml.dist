@@ -10,7 +10,6 @@
 
     <!-- Inherit rules from: -->
     <rule ref="PSR1"/>
-    <rule ref="PSR2"/>
     <rule ref="PSR12"/>
 
     <!-- Paths to check -->

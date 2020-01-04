@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PetWatcher\Application\Actions\Home\Image;
@@ -54,8 +55,10 @@ class AddHomeImageAction extends ImageAction
 
         // Deletion of old image
         if ($home->image != null) {
-            if (!is_writable($this->imgUpload['directory'] . $home->image)
-                || !unlink($this->imgUpload['directory'] . $home->image)) {
+            if (
+                !is_writable($this->imgUpload['directory'] . $home->image)
+                || !unlink($this->imgUpload['directory'] . $home->image)
+            ) {
                 $this->logger->error("Attempt to delete image of home #" . $home->id . " failed");
                 return $this->respondWithJson(self::ERROR, 500, null, "Image upload failed");
             }
