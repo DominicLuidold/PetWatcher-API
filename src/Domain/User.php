@@ -29,6 +29,7 @@ class User extends Model
         'email',
         'password',
         'displayName',
+        'image',
         'admin',
     ];
 

@@ -5,9 +5,9 @@ declare(strict_types=1);
 use PetWatcher\Application\Actions\Home\CreateHomeAction;
 use PetWatcher\Application\Actions\Home\DeleteHomeAction;
 use PetWatcher\Application\Actions\Home\DeleteAllHomesAction;
-use PetWatcher\Application\Actions\Home\Image\AddHomeImageAction;
-use PetWatcher\Application\Actions\Home\Image\DeleteHomeImageAction;
-use PetWatcher\Application\Actions\Home\Image\ViewHomeImageAction;
+use PetWatcher\Application\Actions\Image\AddImageAction;
+use PetWatcher\Application\Actions\Image\DeleteImageAction;
+use PetWatcher\Application\Actions\Image\ViewImageAction;
 use PetWatcher\Application\Actions\Home\ListHomePetsAction;
 use PetWatcher\Application\Actions\Home\ListHomesAction;
 use PetWatcher\Application\Actions\Home\UpdateHomeAction;
@@ -15,9 +15,6 @@ use PetWatcher\Application\Actions\Home\ViewHomeAction;
 use PetWatcher\Application\Actions\Pet\CreatePetAction;
 use PetWatcher\Application\Actions\Pet\DeletePetAction;
 use PetWatcher\Application\Actions\Pet\DeleteAllPetsAction;
-use PetWatcher\Application\Actions\Pet\Image\AddPetImageAction;
-use PetWatcher\Application\Actions\Pet\Image\DeletePetImageAction;
-use PetWatcher\Application\Actions\Pet\Image\ViewPetImageAction;
 use PetWatcher\Application\Actions\Pet\ListPetsAction;
 use PetWatcher\Application\Actions\Pet\UpdatePetAction;
 use PetWatcher\Application\Actions\Pet\ViewPetAction;
@@ -55,9 +52,9 @@ return function (App $app) {
 
         // Pet Images
         $group->group('/pets/{id}', function (Group $group) {
-            $group->get('/image', ViewPetImageAction::class)->setName('view-pet-image');
-            $group->post('/image', AddPetImageAction::class)->setName('add-pet-image');
-            $group->delete('/image', DeletePetImageAction::class)->setName('delete-pet-image');
+            $group->get('/image', ViewImageAction::class)->setName('view-pet-image');
+            $group->post('/image', AddImageAction::class)->setName('add-pet-image');
+            $group->delete('/image', DeleteImageAction::class)->setName('delete-pet-image');
         });
 
         // Homes
@@ -71,9 +68,9 @@ return function (App $app) {
 
         // Home Images
         $group->group('/homes/{id}', function (Group $group) {
-            $group->get('/image', ViewHomeImageAction::class)->setName('view-home-image');
-            $group->post('/image', AddHomeImageAction::class)->setName('add-home-image');
-            $group->delete('/image', DeleteHomeImageAction::class)->setName('delete-home-image');
+            $group->get('/image', ViewImageAction::class)->setName('view-home-image');
+            $group->post('/image', AddImageAction::class)->setName('add-home-image');
+            $group->delete('/image', DeleteImageAction::class)->setName('delete-home-image');
         });
     });
 };
