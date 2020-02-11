@@ -21,12 +21,24 @@ use PetWatcher\Application\Actions\Pet\Image\ViewPetImageAction;
 use PetWatcher\Application\Actions\Pet\ListPetsAction;
 use PetWatcher\Application\Actions\Pet\UpdatePetAction;
 use PetWatcher\Application\Actions\Pet\ViewPetAction;
+use PetWatcher\Application\Actions\User\CreateUserAction;
+use PetWatcher\Application\Actions\User\DeleteAllUsersAction;
+use PetWatcher\Application\Actions\User\DeleteUserAction;
+use PetWatcher\Application\Actions\User\ListUsersAction;
+use PetWatcher\Application\Actions\User\ViewUserAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     // API v1
     $app->group('/v1', function (Group $group) {
+        // Users
+        $group->get('/users', ListUsersAction::class)->setName('list-users');
+        $group->post('/users', CreateUserAction::class)->setName('create-user');
+        $group->delete('/users', DeleteAllUsersAction::class)->setName('delete-users');
+        $group->get('/users/{id}', ViewUserAction::class)->setName('view-user');
+        $group->delete('/users/{id}', DeleteUserAction::class)->setName('delete-user');
+
         // Pets
         $group->get('/pets', ListPetsAction::class)->setName('list-pets');
         $group->post('/pets', CreatePetAction::class)->setName('create-pet');
