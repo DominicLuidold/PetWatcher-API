@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 use PetWatcher\Application\Middleware\JwtAuthentication\RequestPathMethodRule;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 use Slim\App;
 use Tuupola\Middleware\JwtAuthentication;
 
 return function (App $app) {
     $app->add(new JwtAuthentication([
         'secret' => getenv('ACCESS_TOKEN_SECRET'),
+        'logger' => $app->getContainer()->get(LoggerInterface::class),
         'rules' => [
             // Allow access to specific routes without authentication
             new RequestPathMethodRule([
