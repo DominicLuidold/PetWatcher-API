@@ -31,6 +31,7 @@ class CreateHomeAction extends HomeAction
         $home = Home::create(
             [
                 'name' => $this->request->getParsedBody()['name'],
+                'owner' => $this->request->getParsedBody()['owner'],
             ]
         );
 

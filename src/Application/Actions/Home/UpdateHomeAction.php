@@ -38,6 +38,7 @@ class UpdateHomeAction extends HomeAction
         $home->update(
             [
                 'name' => $this->request->getParsedBody()['name'],
+                'owner' => $this->request->getParsedBody()['owner'],
             ]
         );
 

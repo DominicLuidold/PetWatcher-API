@@ -24,6 +24,7 @@ abstract class HomeAction extends Action
             $request,
             [
                 'name' => v::alnum()->length(1, 255),
+                'owner' => v::existingUser(),
             ]
         );
     }
