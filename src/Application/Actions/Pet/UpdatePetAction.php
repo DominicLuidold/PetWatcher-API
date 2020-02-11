@@ -35,12 +35,6 @@ class UpdatePetAction extends PetAction
             );
         }
 
-        // Database query (home)
-        $home = Home::find($this->request->getParsedBody()['home_id']);
-        if (!$home) {
-            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
-        }
-
         // Database update
         $pet->update(
             [
@@ -50,6 +44,7 @@ class UpdatePetAction extends PetAction
                 'location' => $this->request->getParsedBody()['location'],
             ]
         );
+        $home = Home::find($this->request->getParsedBody()['home']);
         $home->pets()->save($pet);
 
         // Response

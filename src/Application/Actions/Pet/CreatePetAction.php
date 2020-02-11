@@ -28,12 +28,6 @@ class CreatePetAction extends PetAction
             );
         }
 
-        // Database query
-        $home = Home::find($this->request->getParsedBody()['home_id']);
-        if (!$home) {
-            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
-        }
-
         // Database insert
         $pet = Pet::create(
             [
@@ -43,6 +37,7 @@ class CreatePetAction extends PetAction
                 'location' => $this->request->getParsedBody()['location'],
             ]
         );
+        $home = Home::find($this->request->getParsedBody()['home']);
         $home->pets()->save($pet);
 
         // Response

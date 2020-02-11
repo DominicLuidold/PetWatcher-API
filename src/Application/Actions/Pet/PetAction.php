@@ -27,7 +27,7 @@ abstract class PetAction extends Action
                 'dateOfBirth' => v::unixTimestamp(),
                 'weight' => v::numeric(),
                 'location' => v::alnum()->length(1, 255),
-                'home_id' => v::notEmpty(),
+                'home' => v::existingHome(),
             ]
         );
     }
