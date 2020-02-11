@@ -6,8 +6,8 @@ use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Monolog\Logger;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+// Load environment variables from config file
+Dotenv::createImmutable(__DIR__ . '/../')->load();
 
 return function (ContainerBuilder $containerBuilder) {
     // Global settings
@@ -27,7 +27,7 @@ return function (ContainerBuilder $containerBuilder) {
             'logger' => [
                 'name' => 'PetWatcher-API',
                 'path' => getenv('LOG_DIR') . 'petwatcher.log',
-                'level' => Logger::DEBUG,
+                'level' => ((getenv('DEBUG') === 'true') ? Logger::DEBUG : Logger::INFO),
             ],
 
             // Database settings
