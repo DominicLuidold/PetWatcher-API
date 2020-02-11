@@ -10,14 +10,11 @@ use Tuupola\Middleware\JwtAuthentication;
 return function (App $app) {
     $app->add(new JwtAuthentication([
         'secret' => getenv('ACCESS_TOKEN_SECRET'),
-        'ignore' =>
-            [
-                '/v1/token',
-            ],
         'rules' => [
-            // Allow applications to create users regardless of provided token
+            // Allow access to specific routes without authentication
             new RequestPathMethodRule([
                 'passthrough' => [
+                    '/v1/token' => ['POST'],
                     '/v1/users' => ['POST'],
                 ],
             ])
