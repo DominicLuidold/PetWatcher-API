@@ -65,6 +65,11 @@ abstract class Action
     protected $args;
 
     /**
+     * @var array $token
+     */
+    protected $token;
+
+    /**
      * Action constructor.
      *
      * @param ContainerInterface $container
@@ -96,6 +101,7 @@ abstract class Action
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
+        $this->token = $request->getAttribute('token');
 
         return $this->action();
     }

@@ -11,12 +11,17 @@ use Psr\Http\Message\ResponseInterface as Response;
 class ViewUserAction extends Action
 {
     /**
-     * View a specific user.
+     * View a specific user, if sufficient permissions are given.
      *
      * @return Response
      */
     protected function action(): Response
     {
+        // Restrict viewing details of single user to user itself and admins
+        if (($this->token['user'] != $this->args['id']) && !$this->token['admin']) {
+            return $this->respondWithJson(self::FAILURE, 401, null, 'Insufficient permissions');
+        }
+
         // Database query
         $user = User::find($this->args['id']);
         if (!$user) {

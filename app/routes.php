@@ -21,6 +21,8 @@ use PetWatcher\Application\Actions\Pet\Image\ViewPetImageAction;
 use PetWatcher\Application\Actions\Pet\ListPetsAction;
 use PetWatcher\Application\Actions\Pet\UpdatePetAction;
 use PetWatcher\Application\Actions\Pet\ViewPetAction;
+use PetWatcher\Application\Actions\Token\GenerateTokenAction;
+use PetWatcher\Application\Actions\Token\RevokeTokenAction;
 use PetWatcher\Application\Actions\User\CreateUserAction;
 use PetWatcher\Application\Actions\User\DeleteAllUsersAction;
 use PetWatcher\Application\Actions\User\DeleteUserAction;
@@ -38,6 +40,10 @@ return function (App $app) {
         $group->delete('/users', DeleteAllUsersAction::class)->setName('delete-users');
         $group->get('/users/{id}', ViewUserAction::class)->setName('view-user');
         $group->delete('/users/{id}', DeleteUserAction::class)->setName('delete-user');
+
+        // Token
+        $group->post('/token', GenerateTokenAction::class)->setName('generate-token');
+        $group->post('/token/revoke', RevokeTokenAction::class)->setName('revoke-token');
 
         // Pets
         $group->get('/pets', ListPetsAction::class)->setName('list-pets');

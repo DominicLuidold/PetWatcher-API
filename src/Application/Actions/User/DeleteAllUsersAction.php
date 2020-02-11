@@ -11,12 +11,17 @@ use Psr\Http\Message\ResponseInterface as Response;
 class DeleteAllUsersAction extends Action
 {
     /**
-     * Delete all users that do not own any homes.
+     * Delete all users that do not own any homes, if sufficient permissions are given.
      *
      * @return Response
      */
     protected function action(): Response
     {
+        // Restrict deletion of all users to admins
+        if (!$this->token['admin']) {
+            return $this->respondWithJson(self::FAILURE, 401, null, 'Insufficient permissions');
+        }
+
         // Database query
         $users = User::all();
 

@@ -12,12 +12,17 @@ use Slim\Routing\RouteContext;
 class ListUsersAction extends Action
 {
     /**
-     * List all users.
+     * List all users, if sufficient permissions are given.
      *
      * @return Response
      */
     protected function action(): Response
     {
+        // Restrict viewing list of users to admins
+        if (!$this->token['admin']) {
+            return $this->respondWithJson(self::FAILURE, 401, null, 'Insufficient permissions');
+        }
+
         // Database query
         $users = User::all();
 
