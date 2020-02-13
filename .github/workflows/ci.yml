@@ -1,9 +1,24 @@
-name: PHP CI
+name: CI
 
 on: [push, pull_request]
 
 jobs:
-  test:
+  coding-guidelines:
+    name: Coding Guidelines
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install PHP_CodeSniffer
+        run: curl -sfSOL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+
+      - name: Run PHP_CodeSniffer
+        run: php phpcs.phar
+
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -13,7 +28,7 @@ jobs:
     name: Test with PHP ${{ matrix.php-versions }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -27,5 +42,5 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run test suite
-        run: composer run-script test
+      - name: Run PHPUnit
+        run: composer run-script phpunit
