@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": "^7.3",
         "ext-json": "*",
         "illuminate/database": "^6.14",
         "monolog/monolog": "^2.0",
@@ -39,8 +40,8 @@
             "@phpunit",
             "@phpcs"
         ],
-        "phpunit": "vendor/bin/phpunit",
-        "phpcs": "vendor/bin/phpcs"
+        "phpunit": "./vendor/bin/phpunit",
+        "phpcs": "./vendor/bin/phpcs"
     },
     "prefer-stable": true,
     "config": {
