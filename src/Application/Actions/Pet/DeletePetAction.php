@@ -21,19 +21,19 @@ class DeletePetAction extends Action
         // Database query
         $pet = Pet::find($this->args['id']);
         if (!$pet) {
-            return $this->respondWithJson(self::FAILURE, 404, null, "Pet not found");
+            return $this->respondWithJson(self::FAILURE, 404, null, 'Pet not found');
         }
 
         // Database delete
         try {
             $pet->delete();
         } catch (Exception $e) {
-            $this->logger->error("Attempt to delete pet #" . $pet->id . " failed");
-            return $this->respondWithJson(self::ERROR, 500, null, "Pet deletion failed");
+            $this->logger->error("Attempt to delete pet #{$pet->id} failed");
+            return $this->respondWithJson(self::ERROR, 500, null, 'Pet deletion failed');
         }
 
         // Response
-        $this->logger->info("Deleted pet #" . $pet->id . " - '" . $pet->name . "'");
+        $this->logger->info("Deleted pet #{$pet->id} - '{$pet->name}'");
         return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

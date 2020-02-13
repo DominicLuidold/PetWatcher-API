@@ -23,7 +23,7 @@ class CreateHomeAction extends HomeAction
                 self::FAILURE,
                 400,
                 $validation->getErrors(),
-                "Input does not match requirements"
+                'Input does not match requirements'
             );
         }
 
@@ -36,7 +36,7 @@ class CreateHomeAction extends HomeAction
         );
 
         // Response
-        $this->logger->info("Created home #" . $home->id . " - '" . $home->name . "'");
+        $this->logger->info("Created home #{$home->id} - '{$home->name}'");
         return $this->respondWithJson(self::SUCCESS, 201, ['home' => $home]);
     }
 }

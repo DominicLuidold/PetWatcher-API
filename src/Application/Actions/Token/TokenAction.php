@@ -16,7 +16,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 abstract class TokenAction extends Action
 {
-
     /**
      * Verify provided authentication.
      *

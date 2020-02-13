@@ -21,7 +21,7 @@ class ViewHomeAction extends Action
         // Database query
         $home = Home::find($this->args['id']);
         if (!$home) {
-            return $this->respondWithJson(self::FAILURE, 404, null, "Home not found");
+            return $this->respondWithJson(self::FAILURE, 404, null, 'Home not found');
         }
 
         // Insert owner URI to ease further navigation

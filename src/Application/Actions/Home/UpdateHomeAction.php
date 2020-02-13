@@ -30,7 +30,7 @@ class UpdateHomeAction extends HomeAction
                 self::FAILURE,
                 400,
                 $validation->getErrors(),
-                "Input does not match requirements"
+                'Input does not match requirements'
             );
         }
 
@@ -43,7 +43,7 @@ class UpdateHomeAction extends HomeAction
         );
 
         // Response
-        $this->logger->info("Updated home #" . $home->id . " - '" . $home->name . "'");
+        $this->logger->info("Updated home #{$home->id} - '{$home->name}'");
         return $this->respondWithJson(self::SUCCESS, 200, ['home' => $home]);
     }
 }

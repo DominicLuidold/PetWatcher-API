@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class RevokeTokenAction extends TokenAction
 {
-
     /**
      * Revoke a single or all refresh tokens of a user based on provided authentication.
      *
@@ -25,8 +24,8 @@ class RevokeTokenAction extends TokenAction
             return $this->respondWithJson(
                 self::FAILURE,
                 401,
-                ["Authentication" => "Provided user credentials and/or token invalid"],
-                "Authentication does not match requirements"
+                ['Authentication' => 'Provided user credentials and/or token invalid'],
+                'Authentication does not match requirements'
             );
         }
 
@@ -36,8 +35,7 @@ class RevokeTokenAction extends TokenAction
         // Invalidate provided refresh token
         if (!empty($this->request->getParsedBody()['refreshToken'])) {
             $token = explode(':', $this->request->getParsedBody()['refreshToken'])[1];
-            Token::where('user_id', $user->id)
-                ->where('token', $token)->delete();
+            Token::where('user_id', $user->id)->where('token', $token)->delete();
             return $this->respondWithJson(self::SUCCESS, 200, null);
         }
 

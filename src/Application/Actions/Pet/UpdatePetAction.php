@@ -31,7 +31,7 @@ class UpdatePetAction extends PetAction
                 self::FAILURE,
                 400,
                 $validation->getErrors(),
-                "Input does not match requirements"
+                'Input does not match requirements'
             );
         }
 
@@ -48,7 +48,7 @@ class UpdatePetAction extends PetAction
         $home->pets()->save($pet);
 
         // Response
-        $this->logger->info("Updated pet #" . $pet->id . " - '" . $pet->name . "'");
+        $this->logger->info("Updated pet #{$pet->id} - '{$pet->name}'");
         return $this->respondWithJson(self::SUCCESS, 200, ['pet' => $pet]);
     }
 }

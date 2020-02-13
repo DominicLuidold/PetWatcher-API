@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class GenerateTokenAction extends TokenAction
 {
-
     /**
      * Generate access and/or refresh token based on provided authentication.
      *
@@ -26,8 +25,8 @@ class GenerateTokenAction extends TokenAction
             return $this->respondWithJson(
                 self::FAILURE,
                 401,
-                ["Authentication" => "Provided user credentials and/or token invalid"],
-                "Authentication does not match requirements"
+                ['Authentication' => 'Provided user credentials and/or token invalid'],
+                'Authentication does not match requirements'
             );
         }
 
@@ -57,7 +56,7 @@ class GenerateTokenAction extends TokenAction
                     ]
                 );
             } catch (Exception $e) {
-                return $this->respondWithJson(self::SUCCESS, 500, null, "Internal error");
+                return $this->respondWithJson(self::SUCCESS, 500, null, 'Internal error');
             }
         }
 
