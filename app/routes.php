@@ -38,6 +38,13 @@ return function (App $app) {
         $group->get('/users/{id}', ViewUserAction::class)->setName('view-user');
         $group->delete('/users/{id}', DeleteUserAction::class)->setName('delete-user');
 
+        // User Images
+        $group->group('/users/{id}', function (Group $group) {
+            $group->get('/image', ViewImageAction::class)->setName('view-user-image');
+            $group->post('/image', AddImageAction::class)->setName('add-user-image');
+            $group->delete('/image', DeleteImageAction::class)->setName('delete-user-image');
+        });
+
         // Token
         $group->post('/token', GenerateTokenAction::class)->setName('generate-token');
         $group->post('/token/revoke', RevokeTokenAction::class)->setName('revoke-token');
