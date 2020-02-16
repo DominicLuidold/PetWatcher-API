@@ -19,7 +19,7 @@ class RequestPathMethodRule implements RuleInterface
         'passthrough' => [],
     ];
 
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge($this->options, $options);
     }
@@ -32,7 +32,7 @@ class RequestPathMethodRule implements RuleInterface
         // If request path matches a passthrough path and its HTTP method, skip authentication
         foreach ((array)$this->options['passthrough'] as $path => $methods) {
             $ignore = rtrim($path, '/');
-            if (!!preg_match("@^{$ignore}(/.*)?$@", $uri) && in_array($request->getMethod(), $methods)) {
+            if (!!preg_match("@^{$ignore}$@", $uri) && in_array($request->getMethod(), $methods)) {
                 return false;
             }
         }
