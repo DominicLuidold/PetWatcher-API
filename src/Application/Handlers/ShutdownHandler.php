@@ -42,7 +42,7 @@ class ShutdownHandler
     /**
      * Determine error message (level of detail) and emit response.
      */
-    public function __invoke()
+    public function __invoke(): void
     {
         $error = error_get_last();
         if ($error) {

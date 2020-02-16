@@ -10,7 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @method static Model|Builder create($attributes = array())
+ * @property int    $id
+ * @property string $name
+ * @property string $image
+ * @property mixed  $home
+ *
+ * @method static Model|Builder|static create($attributes = array())
  * @method static Model|Collection|static[]|static|null find($id, $columns = array())
  */
 class Pet extends Model
@@ -43,8 +48,8 @@ class Pet extends Model
      *
      * @return BelongsTo
      */
-    public function home()
+    public function home(): BelongsTo
     {
-        return $this->belongsTo('PetWatcher\Domain\Home');
+        return $this->belongsTo('PetWatcher\Domain\Home', 'home');
     }
 }

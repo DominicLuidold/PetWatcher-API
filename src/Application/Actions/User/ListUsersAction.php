@@ -26,10 +26,13 @@ class ListUsersAction extends Action
         // Database query
         $users = User::all();
 
-        // Insert resource-specific URI to ease further navigation
+        // Insert resource-specific URIs to ease further navigation
         $routeContext = RouteContext::fromRequest($this->request);
         foreach ($users as $user) {
-            $user->URI = $routeContext->getRouteParser()->relativeUrlFor('view-user', ['id' => $user->id]);
+            if ($user->image != null) {
+                $user->image = $routeContext->getRouteParser()->relativeUrlFor('view-user-image', ['id' => $user->id]);
+            }
+            $user['URI'] = $routeContext->getRouteParser()->relativeUrlFor('view-user', ['id' => $user->id]);
         }
 
         // Response

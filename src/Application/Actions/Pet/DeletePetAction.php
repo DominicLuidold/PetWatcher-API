@@ -20,7 +20,7 @@ class DeletePetAction extends Action
     {
         // Database query
         $pet = Pet::find($this->args['id']);
-        if (!$pet) {
+        if ($pet == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, 'Pet not found');
         }
 
@@ -28,12 +28,12 @@ class DeletePetAction extends Action
         try {
             $pet->delete();
         } catch (Exception $e) {
-            $this->logger->error("Attempt to delete pet #{$pet->id} failed");
+            $this->logger->error("Attempt to delete pet #{$pet->id} failed", ['user' => $this->token['user']]);
             return $this->respondWithJson(self::ERROR, 500, null, 'Pet deletion failed');
         }
 
         // Response
-        $this->logger->info("Deleted pet #{$pet->id} - '{$pet->name}'");
+        $this->logger->info("Deleted pet #{$pet->id} - '{$pet->name}'", ['user' => $this->token['user']]);
         return $this->respondWithJson(self::SUCCESS, 200, null);
     }
 }

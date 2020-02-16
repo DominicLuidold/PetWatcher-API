@@ -7,6 +7,7 @@ namespace PetWatcher\Application\Actions\Pet;
 use PetWatcher\Domain\Home;
 use PetWatcher\Domain\Pet;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteContext;
 
 class UpdatePetAction extends PetAction
 {
@@ -19,9 +20,12 @@ class UpdatePetAction extends PetAction
     {
         // Database query (pet)
         $pet = Pet::find($this->args['id']);
-        if (!$pet) {
+        if ($pet == null) {
             // Create pet if specified id does not exist yet
-            return $this->response->withHeader('Location', '/api/v1/pets')->withStatus(307);
+            return $this->response->withHeader(
+                'Location',
+                RouteContext::fromRequest($this->request)->getRouteParser()->relativeUrlFor('create-pet')
+            )->withStatus(307);
         }
 
         // Input validation
@@ -48,7 +52,7 @@ class UpdatePetAction extends PetAction
         $home->pets()->save($pet);
 
         // Response
-        $this->logger->info("Updated pet #{$pet->id} - '{$pet->name}'");
+        $this->logger->info("Updated pet #{$pet->id} - '{$pet->name}'", ['user' => $this->token['user']]);
         return $this->respondWithJson(self::SUCCESS, 200, ['pet' => $pet]);
     }
 }

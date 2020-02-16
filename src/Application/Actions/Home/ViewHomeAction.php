@@ -20,13 +20,22 @@ class ViewHomeAction extends Action
     {
         // Database query
         $home = Home::find($this->args['id']);
-        if (!$home) {
+        if ($home == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, 'Home not found');
         }
 
-        // Insert owner URI to ease further navigation
-        $routeContext = RouteContext::fromRequest($this->request);
-        $home->owner = $routeContext->getRouteParser()->relativeUrlFor('view-user', ['id' => $home->owner]);
+        // Insert resource-specific URIs to ease further navigation
+        $home->owner = RouteContext::fromRequest($this->request)->getRouteParser()->relativeUrlFor(
+            'view-user',
+            ['id' => $home->owner]
+        );
+        if ($home->image != null) {
+            $home->image = RouteContext::fromRequest($this->request)->getRouteParser()->relativeUrlFor(
+                'view-home-image',
+                ['id' => $home->id]
+            );
+        }
+
 
         // Response
         return $this->respondWithJson(self::SUCCESS, 200, ['home' => $home]);

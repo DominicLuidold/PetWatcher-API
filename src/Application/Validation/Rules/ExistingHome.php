@@ -12,7 +12,7 @@ class ExistingHome extends AbstractRule
     /**
      * Validate user input to confirm specified home exists.
      *
-     * @param $input
+     * @param int $input
      *
      * @return bool Whether validation has succeeded and home exists
      */

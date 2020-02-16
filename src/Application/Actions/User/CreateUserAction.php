@@ -39,7 +39,7 @@ class CreateUserAction extends UserAction
         );
 
         // Response
-        $this->logger->info("Created user #" . $user->id . " - '" . $user->username . "'");
+        $this->logger->info("Created user #{$user->id} - '{$user->username}'");
         return $this->respondWithJson(self::SUCCESS, 201, ['user' => $user->makeHidden('password')]);
     }
 }

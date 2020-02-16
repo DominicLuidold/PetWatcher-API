@@ -56,7 +56,7 @@ abstract class TokenAction extends Action
      *
      * @param Request $request
      *
-     * @return Builder|Collection|Model|object|User|User[]|null
+     * @return mixed|User
      */
     protected function getUser(Request $request)
     {
@@ -75,7 +75,7 @@ abstract class TokenAction extends Action
      * An access token is used to authenticate a user when performing certain actions.
      * Valid for five minutes upon creation.
      *
-     * @param User|Model $user
+     * @param User $user
      *
      * @return string
      */
@@ -111,7 +111,7 @@ abstract class TokenAction extends Action
      * need to provide further credentials (e.g. username or password). Valid for
      * 14 days upon creation.
      *
-     * @param User|Model $user
+     * @param User $user
      *
      * @return string
      * @throws Exception

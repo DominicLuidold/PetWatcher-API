@@ -21,10 +21,14 @@ class ListPetsAction extends Action
         // Database query
         $pets = Pet::all();
 
-        // Insert resource-specific URI to ease further navigation
+        // Insert resource-specific URIs to ease further navigation
         $routeContext = RouteContext::fromRequest($this->request);
         foreach ($pets as $pet) {
-            $pet->URI = $routeContext->getRouteParser()->relativeUrlFor('view-pet', ['id' => $pet->id]);
+            if ($pet->image != null) {
+                $pet->image = $routeContext->getRouteParser()->relativeUrlFor('view-pet-image', ['id' => $pet->id]);
+            }
+            $pet->home = $routeContext->getRouteParser()->relativeUrlFor('view-home', ['id' => $pet->home]);
+            $pet['URI'] = $routeContext->getRouteParser()->relativeUrlFor('view-pet', ['id' => $pet->id]);
         }
 
         // Response

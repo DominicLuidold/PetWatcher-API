@@ -36,7 +36,7 @@ class CreateHomeAction extends HomeAction
         );
 
         // Response
-        $this->logger->info("Created home #{$home->id} - '{$home->name}'");
+        $this->logger->info("Created home #{$home->id} - '{$home->name}'", ['user' => $this->token['user']]);
         return $this->respondWithJson(self::SUCCESS, 201, ['home' => $home]);
     }
 }

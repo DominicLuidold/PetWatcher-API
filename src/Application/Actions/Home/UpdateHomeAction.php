@@ -6,6 +6,7 @@ namespace PetWatcher\Application\Actions\Home;
 
 use PetWatcher\Domain\Home;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteContext;
 
 class UpdateHomeAction extends HomeAction
 {
@@ -18,9 +19,12 @@ class UpdateHomeAction extends HomeAction
     {
         // Database query
         $home = Home::find($this->args['id']);
-        if (!$home) {
+        if ($home == null) {
             // Create home if specified id does not exist yet
-            return $this->response->withHeader('Location', '/api/v1/homes')->withStatus(307);
+            return $this->response->withHeader(
+                'Location',
+                RouteContext::fromRequest($this->request)->getRouteParser()->relativeUrlFor('create-home')
+            )->withStatus(307);
         }
 
         // Input validation
@@ -43,7 +47,7 @@ class UpdateHomeAction extends HomeAction
         );
 
         // Response
-        $this->logger->info("Updated home #{$home->id} - '{$home->name}'");
+        $this->logger->info("Updated home #{$home->id} - '{$home->name}'", ['user' => $this->token['user']]);
         return $this->respondWithJson(self::SUCCESS, 200, ['home' => $home]);
     }
 }

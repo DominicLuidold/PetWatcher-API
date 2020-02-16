@@ -12,7 +12,7 @@ class UniqueUsername extends AbstractRule
     /**
      * Validate user input to confirm unique username.
      *
-     * @param $input
+     * @param string $input
      *
      * @return bool Whether validation has succeeded
      */

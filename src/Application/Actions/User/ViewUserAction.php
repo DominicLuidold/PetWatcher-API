@@ -7,6 +7,7 @@ namespace PetWatcher\Application\Actions\User;
 use PetWatcher\Application\Actions\Action;
 use PetWatcher\Domain\User;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteContext;
 
 class ViewUserAction extends Action
 {
@@ -24,8 +25,16 @@ class ViewUserAction extends Action
 
         // Database query
         $user = User::find($this->args['id']);
-        if (!$user) {
+        if ($user == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, 'User not found');
+        }
+
+        // Insert resource-specific URIs to ease further navigation
+        if ($user->image != null) {
+            $user->image = RouteContext::fromRequest($this->request)->getRouteParser()->relativeUrlFor(
+                'view-user-image',
+                ['id' => $user->id]
+            );
         }
 
         // Response

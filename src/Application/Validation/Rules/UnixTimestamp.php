@@ -11,7 +11,7 @@ class UnixTimestamp extends AbstractRule
     /**
      * Validate user input to confirm valid Unix timestamp.
      *
-     * @param $input
+     * @param string $input
      *
      * @return bool Whether validation has succeeded
      */

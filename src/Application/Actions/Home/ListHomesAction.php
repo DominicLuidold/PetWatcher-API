@@ -21,11 +21,14 @@ class ListHomesAction extends Action
         // Database query
         $homes = Home::all();
 
-        // Insert owner URI and resource-specific URI to ease further navigation
+        // Insert resource-specific URIs to ease further navigation
         $routeContext = RouteContext::fromRequest($this->request);
         foreach ($homes as $home) {
+            if ($home->image != null) {
+                $home->image = $routeContext->getRouteParser()->relativeUrlFor('view-home-image', ['id' => $home->id]);
+            }
             $home->owner = $routeContext->getRouteParser()->relativeUrlFor('view-user', ['id' => $home->owner]);
-            $home->URI = $routeContext->getRouteParser()->relativeUrlFor('view-home', ['id' => $home->id]);
+            $home['URI'] = $routeContext->getRouteParser()->relativeUrlFor('view-home', ['id' => $home->id]);
         }
 
         // Response

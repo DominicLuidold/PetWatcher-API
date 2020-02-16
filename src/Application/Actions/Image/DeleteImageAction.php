@@ -21,8 +21,8 @@ class DeleteImageAction extends ImageAction
     {
         // Database query
         $actualModel = $model::find($this->args['id']);
-        if (!$actualModel) {
-            return $this->respondWithJson(self::FAILURE, 404, null, "{$modelName} not found");
+        if ($actualModel == null) {
+            return $this->respondWithJson(self::FAILURE, 404, null, ucfirst($modelName) . " not found");
         }
         if ($actualModel->image == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, 'Image not found');

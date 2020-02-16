@@ -12,7 +12,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @method static Model|Builder create($attributes = array())
+ * @property int    $id
+ * @property string $name
+ * @property mixed  $owner
+ * @property string $image
+ *
+ * @method static Model|Builder|static create($attributes = array())
  * @method static Model|Collection|static[]|static|null find($id, $columns = array())
  * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
@@ -33,32 +38,32 @@ class Home extends Model
     ];
 
     /**
-     * Get the owner of this home
+     * Get the owner of this home.
      *
      * @return BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo('PetWatcher\Models\User', 'owner');
     }
 
     /**
-     * Get all users that can access this home
+     * Get all users that can access this home.
      *
      * @return BelongsToMany
      */
-    public function accessors()
+    public function accessors(): BelongsToMany
     {
         return $this->belongsToMany('PetWatcher\Models\User');
     }
 
     /**
-     * Get all pets living in this home
+     * Get all pets living in this home.
      *
      * @return HasMany
      */
-    public function pets()
+    public function pets(): HasMany
     {
-        return $this->hasMany('PetWatcher\Domain\Pet');
+        return $this->hasMany('PetWatcher\Domain\Pet', 'home');
     }
 }

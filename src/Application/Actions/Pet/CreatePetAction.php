@@ -41,7 +41,7 @@ class CreatePetAction extends PetAction
         $home->pets()->save($pet);
 
         // Response
-        $this->logger->info("Created pet #{$pet->id} - '{$pet->name}'");
+        $this->logger->info("Created pet #{$pet->id} - '{$pet->name}'", ['user' => $this->token['user']]);
         return $this->respondWithJson(self::SUCCESS, 201, ['pet' => $pet]);
     }
 }

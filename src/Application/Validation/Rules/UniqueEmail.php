@@ -12,7 +12,7 @@ class UniqueEmail extends AbstractRule
     /**
      * Validate user input to confirm unique email address.
      *
-     * @param $input
+     * @param string $input
      *
      * @return bool Whether validation has succeeded
      */

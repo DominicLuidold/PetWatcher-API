@@ -20,15 +20,18 @@ class ListHomePetsAction extends Action
     {
         // Database query
         $home = Home::find($this->args['id']);
-        if (!$home) {
+        if ($home == null) {
             return $this->respondWithJson(self::FAILURE, 404, null, 'Home not found');
         }
         $pets = $home->pets()->get();
 
-        // Insert resource-specific URI to ease further navigation
+        // Insert resource-specific URIs to ease further navigation
         $routeContext = RouteContext::fromRequest($this->request);
         foreach ($pets as $pet) {
-            $pet->URI = $routeContext->getRouteParser()->relativeUrlFor('view-pet', ['id' => $pet->id]);
+            if ($pet->image != null) {
+                $pet->image = $routeContext->getRouteParser()->relativeUrlFor('view-pet-image', ['id' => $pet->id]);
+            }
+            $pet['URI'] = $routeContext->getRouteParser()->relativeUrlFor('view-pet', ['id' => $pet->id]);
         }
 
         // Response

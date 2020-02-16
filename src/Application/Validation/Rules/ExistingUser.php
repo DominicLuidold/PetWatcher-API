@@ -12,7 +12,7 @@ class ExistingUser extends AbstractRule
     /**
      * Validate user input to confirm specified user exists.
      *
-     * @param $input
+     * @param int $input
      *
      * @return bool Whether validation has succeeded and user exists
      */

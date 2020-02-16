@@ -17,6 +17,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\UploadedFileInterface as UploadedFile;
 use Psr\Log\LoggerInterface;
 use Respect\Validation\Validator as v;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Routing\RouteContext;
 
 abstract class ImageAction extends Action
@@ -48,6 +49,7 @@ abstract class ImageAction extends Action
      * Perform image action based on specified URI to determine model.
      *
      * @return Response
+     * @throws HttpNotFoundException if image URI is invalid
      */
     protected function action(): Response
     {
@@ -67,8 +69,7 @@ abstract class ImageAction extends Action
                 $modelName = 'user';
                 break;
             default:
-                $model = null;
-                $modelName = null;
+                throw new HttpNotFoundException($this->request);
         }
         return $this->imageAction($model, $modelName);
     }
