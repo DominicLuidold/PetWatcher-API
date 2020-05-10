@@ -25,7 +25,7 @@ abstract class PetAction extends Action
             [
                 'name' => v::alpha()->length(1, 255),
                 'dateOfBirth' => v::unixTimestamp(),
-                'weight' => v::numeric(),
+                'weight' => v::numericVal(),
                 'location' => v::alnum()->length(1, 255),
                 'home' => v::existingHome(),
             ]

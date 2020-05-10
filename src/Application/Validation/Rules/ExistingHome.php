@@ -7,7 +7,7 @@ namespace PetWatcher\Application\Validation\Rules;
 use PetWatcher\Domain\Home;
 use Respect\Validation\Rules\AbstractRule;
 
-class ExistingHome extends AbstractRule
+final class ExistingHome extends AbstractRule
 {
     /**
      * Validate user input to confirm specified home exists.
@@ -16,7 +16,7 @@ class ExistingHome extends AbstractRule
      *
      * @return bool Whether validation has succeeded and home exists
      */
-    public function validate($input)
+    public function validate($input): bool
     {
         return Home::where('id', $input)->exists();
     }

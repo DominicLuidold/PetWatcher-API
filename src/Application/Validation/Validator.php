@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PetWatcher\Application\Validation;
 
 use Respect\Validation\Exceptions\NestedValidationException;
+use Respect\Validation\Validator as v;
 
 class Validator
 {
@@ -28,17 +29,17 @@ class Validator
             try {
                 if ($file) {
                     if (!isset($input['image']['tmp_name'])) {
-                        throw new NestedValidationException($key . ' must not be omitted');
+                        v::keyNested('image.tmp_name')->assert($input);
                     }
-                    $rule->setName($key)->assert($input['image']['tmp_name']);
+                    $rule->assert($input['image']['tmp_name']);
                 } else {
                     if (!isset($input->getParsedBody()[$key])) {
-                        throw new NestedValidationException($key . ' must not be omitted');
+                        v::key($key)->assert($input->getParsedBody());
                     }
-                    $rule->setName($key)->assert($input->getParsedBody()[$key]);
+                    $rule->assert($input->getParsedBody()[$key]);
                 }
             } catch (NestedValidationException $e) {
-                $this->errors[$key] = $e->getMessages();
+                $this->errors[$key] = array_values($e->getMessages());
             }
         }
         return $this;

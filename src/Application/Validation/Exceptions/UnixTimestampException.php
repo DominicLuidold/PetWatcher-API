@@ -6,9 +6,12 @@ namespace PetWatcher\Application\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
-class UnixTimestampException extends ValidationException
+final class UnixTimestampException extends ValidationException
 {
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be a valid Unix timestamp'
         ],

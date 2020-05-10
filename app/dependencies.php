@@ -10,7 +10,7 @@ use Monolog\Processor\UidProcessor;
 use PetWatcher\Application\Validation\Validator;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Respect\Validation\Validator as v;
+use Respect\Validation\Factory;
 
 return function (ContainerBuilder $containerBuilder) {
     // Global dependencies
@@ -42,5 +42,9 @@ return function (ContainerBuilder $containerBuilder) {
     ]);
 
     // Custom validation rules
-    v::with('PetWatcher\Application\Validation\Rules');
+    Factory::setDefaultInstance(
+        (new Factory())
+            ->withRuleNamespace('PetWatcher\Application\Validation\Rules')
+            ->withExceptionNamespace('PetWatcher\Application\Validation\Exceptions')
+    );
 };

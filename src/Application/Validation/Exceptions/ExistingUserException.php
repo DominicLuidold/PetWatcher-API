@@ -6,9 +6,12 @@ namespace PetWatcher\Application\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
-class ExistingUserException extends ValidationException
+final class ExistingUserException extends ValidationException
 {
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be an existing user'
         ],

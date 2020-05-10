@@ -6,9 +6,12 @@ namespace PetWatcher\Application\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
-class UniqueEmailException extends ValidationException
+final class UniqueEmailException extends ValidationException
 {
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be unique'
         ],

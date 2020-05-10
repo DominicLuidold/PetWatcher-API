@@ -7,7 +7,7 @@ namespace PetWatcher\Application\Validation\Rules;
 use PetWatcher\Domain\User;
 use Respect\Validation\Rules\AbstractRule;
 
-class UniqueEmail extends AbstractRule
+final class UniqueEmail extends AbstractRule
 {
     /**
      * Validate user input to confirm unique email address.
@@ -16,7 +16,7 @@ class UniqueEmail extends AbstractRule
      *
      * @return bool Whether validation has succeeded
      */
-    public function validate($input)
+    public function validate($input): bool
     {
         return User::where('email', $input)->doesntExist();
     }
