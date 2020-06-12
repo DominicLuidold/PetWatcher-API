@@ -36,7 +36,7 @@ abstract class TokenAction extends Action
             list($userID, $token, $mac) = array_pad(explode(':', $request->getParsedBody()['refreshToken']), 3, null);
             if (
                 $user &&
-                hash_equals(hash_hmac('SHA512', $userID . ':' . $token, getenv('REFRESH_TOKEN_SECRET')), $mac) &&
+                hash_equals(hash_hmac('SHA512', $userID . ':' . $token, $_SERVER['REFRESH_TOKEN_SECRET']), $mac) &&
                 Token::where('user_id', $userID)->where('token', $token)->first()
             ) {
                 return true;
@@ -100,7 +100,7 @@ abstract class TokenAction extends Action
                 'admin' => $user->admin,
                 'homes' => $homes,
             ],
-            getenv('ACCESS_TOKEN_SECRET')
+            $_SERVER['ACCESS_TOKEN_SECRET']
         );
     }
 
@@ -132,7 +132,7 @@ abstract class TokenAction extends Action
 
         // Token + MAC generation
         $refreshToken = $user->id . ':' . $token;
-        $mac = hash_hmac('SHA512', $refreshToken, getenv('REFRESH_TOKEN_SECRET'));
+        $mac = hash_hmac('SHA512', $refreshToken, $_SERVER['REFRESH_TOKEN_SECRET']);
         $refreshToken .= ':' . $mac;
 
         return $refreshToken;

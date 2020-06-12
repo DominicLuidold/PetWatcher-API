@@ -10,7 +10,7 @@ use Tuupola\Middleware\JwtAuthentication;
 
 return function (App $app) {
     $app->add(new JwtAuthentication([
-        'secret' => getenv('ACCESS_TOKEN_SECRET'),
+        'secret' => $_SERVER['ACCESS_TOKEN_SECRET'],
         'logger' => $app->getContainer()->get(LoggerInterface::class),
         'rules' => [
             // Allow access to specific routes without authentication
