@@ -1418,16 +1418,16 @@
         },
         {
             "name": "respect/validation",
-            "version": "2.0.10",
+            "version": "2.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Respect/Validation.git",
-                "reference": "80f236bb900e5bc5e790737a31806f4d10c560ba"
+                "reference": "fc14c6c6695c3f870ad8810a2acddccec015841d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Validation/zipball/80f236bb900e5bc5e790737a31806f4d10c560ba",
-                "reference": "80f236bb900e5bc5e790737a31806f4d10c560ba",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/fc14c6c6695c3f870ad8810a2acddccec015841d",
+                "reference": "fc14c6c6695c3f870ad8810a2acddccec015841d",
                 "shasum": ""
             },
             "require": {
@@ -1436,7 +1436,6 @@
                 "symfony/polyfill-mbstring": "^1.2"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
                 "egulias/email-validator": "^2.1",
                 "malukenho/docheader": "^0.1",
                 "mikey179/vfsstream": "^1.6",
@@ -1444,7 +1443,7 @@
                 "phpstan/phpstan-deprecation-rules": "^0.11.0",
                 "phpstan/phpstan-phpunit": "^0.11.0",
                 "phpunit/phpunit": "^7.5",
-                "respect/coding-standard": "^1.0",
+                "respect/coding-standard": "^2.1",
                 "squizlabs/php_codesniffer": "^3.5",
                 "symfony/validator": "^3.0||^4.0",
                 "zendframework/zend-validator": "^2.1"
@@ -1480,7 +1479,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2020-06-07T00:14:45+00:00"
+            "time": "2020-07-25T18:34:16+00:00"
         },
         {
             "name": "slim/psr7",
@@ -1989,16 +1988,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.17.1",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "7110338d81ce1cbc3e273136e4574663627037a7"
+                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7110338d81ce1cbc3e273136e4574663627037a7",
-                "reference": "7110338d81ce1cbc3e273136e4574663627037a7",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
+                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
                 "shasum": ""
             },
             "require": {
@@ -2010,7 +2009,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -2062,7 +2061,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-06T08:46:27+00:00"
+            "time": "2020-07-14T12:35:20+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
