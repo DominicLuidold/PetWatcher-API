@@ -1,0 +1,18 @@
+# IDE specific
+/.idea/
+
+# Composer
+/vendor/
+/composer.phar
+
+# Project & Symfony
+/public/bundles/
+/var/
+/src/.preload.php
+.env.local
+.env.local.php
+.env.*.local
+
+# Miscellaneous
+.phpunit.result.cache
+.phpcs-cache
