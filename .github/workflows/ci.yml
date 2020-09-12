@@ -12,18 +12,44 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
       - name: Install PHP_CodeSniffer
         run: curl -sfSOL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
 
       - name: Run PHP_CodeSniffer
         run: php phpcs.phar
 
+  static-code-analysis:
+    name: Static Code Analysis
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: mbstring
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --optimize-autoloader --no-progress --no-suggest --no-interaction
+
+      - name: Run PHPStan
+        run: composer phpstan
+
   tests:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        php-versions: [7.3, 7.4]
+        php-versions: [7.4]
 
     name: Test with PHP ${{ matrix.php-versions }}
     steps:
@@ -37,10 +63,10 @@ jobs:
           extensions: mbstring
 
       - name: Validate composer.json and composer.lock
-        run: composer validate
+        run: composer validate --strict
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --optimize-autoloader --no-progress --no-suggest --no-interaction
 
       - name: Run PHPUnit
-        run: composer run-script phpunit
+        run: composer phpunit

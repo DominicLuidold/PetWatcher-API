@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<ruleset name="PetWatcher coding standard">
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PetWatcher"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
     <description>PetWatcher coding standard</description>
 
-    <!-- Display progress -->
-    <arg value="p"/>
-    <!-- Use colors in output -->
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
     <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg value="p"/>
 
-    <!-- Inherit rules from: -->
     <rule ref="PSR1"/>
     <rule ref="PSR12"/>
 
-    <!-- Paths to check -->
-    <file>./app/</file>
-    <file>./public/</file>
-    <file>./src/</file>
-    <file>./tests/</file>
+    <file>bin/</file>
+    <file>config/</file>
+    <file>public/</file>
+    <file>src/</file>
+    <file>tests/</file>
 </ruleset>
